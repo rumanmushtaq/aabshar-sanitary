@@ -1,0 +1,8 @@
+/* Shop listing: sort control and grid spacing. Everything else reuses v7 classes. */
+.shop-sort{display:flex;align-items:center;gap:10px;font-size:.9rem;color:var(--muted)}
+.shop-sort select{font:inherit;color:var(--ink);border:1.5px solid var(--line);border-radius:99px;padding:8px 16px;min-height:44px;background:#fff}
+.shop-sort select:focus-visible{border-color:var(--ink);outline:none;box-shadow:0 0 0 3px rgba(195,147,80,.35)}
+.shop-grid{row-gap:36px}
+.shop .head{margin-bottom:28px}
+.shop .ptabs{margin-bottom:32px}
+.shop .empty .btn{margin-top:6px}

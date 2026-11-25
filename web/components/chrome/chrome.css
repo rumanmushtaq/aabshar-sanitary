@@ -1,0 +1,9 @@
+/* Additions to the v7 stylesheet for the site chrome. */
+
+/* Search results are links to product pages (v7 used buttons). */
+.sres a{display:grid;grid-template-columns:64px minmax(0,1fr);gap:14px;align-items:center;text-align:start;border:1px solid var(--line);background:#fff;border-radius:16px;padding:10px;min-height:84px;text-decoration:none;color:var(--ink);transition:border-color .2s}
+.sres a:hover,.sres a:focus-visible{border-color:var(--ink)}
+
+/* Before body[data-view] is set on first load, keep the homepage nav transparent over the hero. */
+body:not([data-view]) .nav.top{background:linear-gradient(180deg,rgba(7,9,13,.7),rgba(7,9,13,0))}
+body:not([data-view]) .nav.top .col{height:80px}

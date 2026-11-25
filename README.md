@@ -10,6 +10,7 @@ Design prototypes for Aabshar, a sanitary-fittings and plastic-products manufact
 | `aabshar-v2.html` … `aabshar-v6.html` | Earlier homepage iterations |
 | `aabshar-v7.html` | Current design: homepage, product page, checkout and dealer portal |
 | `img/` | Photos (Unsplash, free licence) and the logo mark (`logo-mark.svg`) |
+| `web/` | The Next.js website built from v7 (see `web/README.md`) |
 
 ## Viewing
 

@@ -1,0 +1,5 @@
+/* Homepage additions on top of the v7 stylesheet. */
+
+/* Dealer phone numbers are tel: links; undo the pill style that .dshop a gives the Directions link. */
+.dshop a.tel{grid-row:auto;grid-column:auto;border:0;border-radius:0;padding:0;font-weight:500;color:var(--ink);font-size:.88rem;text-decoration:none;justify-self:start}
+.dshop a.tel:hover{text-decoration:underline}
