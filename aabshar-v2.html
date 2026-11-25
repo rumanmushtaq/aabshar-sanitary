@@ -1,0 +1,878 @@
+<title>Aabshar Sanitary</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Nastaliq+Urdu:wght@500&display=swap">
+<style>
+/* Layout: dark "showroom" hero with a live 3D fitting, then light porcelain catalogue bands; 1240px max column */
+:root{
+  --ink:#0b1320;        /* showroom night */
+  --ink-2:#142036;
+  --ink-3:#1e2d47;
+  --brass:#c69246;      /* the fitting itself: one accent */
+  --brass-text:#8a5d1e; /* brass for small text on light ground */
+  --paper:#f1f2ef;      /* glazed porcelain */
+  --white:#ffffff;
+  --stone:#e3e5e0;
+  --mist:#dde6e9;
+  --sand:#e9e1d3;
+  --line:#d3d7d2;
+  --muted:#58616f;
+  --on-ink:#e8edf4;
+  --on-ink-2:#9fb0c6;
+  --ok:#2e7a4f;
+  --f-display:"Fraunces", "Iowan Old Style", Georgia, serif;
+  --f-body:"Manrope", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
+  --f-urdu:"Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--ink)}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--brass);outline-offset:3px;border-radius:6px}
+.gut{padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.col{max-width:1240px;margin-inline:auto}
+.eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase}
+.display{font-family:var(--f-display);font-weight:300;letter-spacing:-.025em;line-height:1.02;font-variation-settings:"opsz" 144;text-wrap:balance;margin:0}
+.display em{font-style:italic;color:var(--brass)}
+.h2{font-size:clamp(2.1rem,4.4vw,3.6rem)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--ink) 88%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:var(--on-ink);border-bottom:1px solid rgba(255,255,255,.07)}
+.nav .col{display:flex;align-items:center;gap:28px;height:70px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--on-ink)}
+.logo b{font-family:var(--f-display);font-weight:400;font-size:1.55rem;letter-spacing:-.02em}
+.logo svg{width:30px;height:30px}
+.links{display:flex;gap:26px;font-size:.92rem;font-weight:500}
+.links a{text-decoration:none;color:var(--on-ink-2)}
+.links a:hover{color:var(--on-ink)}
+.nav .right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.mode{display:inline-flex;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:99px;padding:3px}
+.mode button{border:0;background:transparent;color:var(--on-ink-2);font-size:.82rem;font-weight:600;padding:8px 14px;border-radius:99px;min-height:36px}
+.mode button[aria-pressed="true"]{background:var(--brass);color:var(--ink)}
+.iconbtn{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.12);background:transparent;color:var(--on-ink);position:relative;text-decoration:none}
+.iconbtn svg{width:20px;height:20px}
+.badge{position:absolute;top:-5px;right:-5px;min-width:20px;height:20px;border-radius:99px;background:var(--brass);color:var(--ink);font-size:.72rem;font-weight:700;display:grid;place-items:center;padding:0 5px}
+.urdu{font-family:var(--f-urdu);font-size:.85rem;line-height:1.9;color:var(--on-ink-2);text-decoration:none}
+
+/* ---------- hero ---------- */
+.hero{background:var(--ink);color:var(--on-ink);position:relative;overflow:hidden}
+.hero .col{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:24px;align-items:center;padding-block:56px 0;min-height:640px}
+.hero h1{font-size:clamp(3rem,7vw,6.4rem);color:#fff}
+.hero .lede{color:var(--on-ink-2);font-size:1.12rem;max-width:44ch;margin:22px 0 0}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.btn{background:transparent;display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:15px 24px;font-weight:600;font-size:.98rem;text-decoration:none;border:1.5px solid transparent;min-height:50px}
+.btn.brass{background:var(--brass);color:var(--ink)}
+.btn.brass:hover{background:#d4a159}
+.btn.ghost{border-color:rgba(255,255,255,.28);color:#fff}
+.btn.ghost:hover{border-color:#fff}
+.btn.dark{background:var(--ink);color:#fff}
+.btn.line{border-color:var(--ink);color:var(--ink)}
+.btn svg{width:18px;height:18px}
+.stage{position:relative;height:min(64vw,660px);min-height:420px}
+#hero3d{position:absolute;inset:0;width:100%;height:100%;display:block}
+.stage .glow{position:absolute;left:50%;top:56%;width:70%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(198,146,70,.20),rgba(198,146,70,0));pointer-events:none}
+.finishes{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);display:flex;gap:8px;background:rgba(11,19,32,.72);border:1px solid rgba(255,255,255,.1);border-radius:99px;padding:6px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);max-width:calc(100% - 24px);overflow-x:auto}
+.finishes button{display:flex;align-items:center;gap:8px;border:0;background:transparent;color:var(--on-ink-2);border-radius:99px;padding:8px 14px 8px 8px;font-size:.84rem;font-weight:600;white-space:nowrap;min-height:40px}
+.finishes button[aria-pressed="true"]{background:rgba(255,255,255,.1);color:#fff}
+.sw{width:22px;height:22px;border-radius:50%;flex:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.sw.chrome{background:conic-gradient(from 200deg,#f5f7fa,#9aa3ad,#f5f7fa,#c3c9d0,#f5f7fa)}
+.sw.black{background:conic-gradient(from 200deg,#2b2d31,#141518,#3a3c41,#141518,#2b2d31)}
+.sw.gold{background:conic-gradient(from 200deg,#f0cf87,#b0832f,#f3d793,#c39a46,#f0cf87)}
+.sw.gunmetal{background:conic-gradient(from 200deg,#8d929b,#4a4e56,#9ba0a8,#5a5e66,#8d929b)}
+.tag{position:absolute;left:2%;top:10%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:12px 16px;display:grid;gap:2px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.tag .mono{font-size:.74rem;color:var(--on-ink-2)}
+.tag b{font-weight:600;font-size:.95rem}
+.tag .price{font-family:var(--f-mono);font-size:1.15rem;color:#fff}
+.spec{border-top:1px solid rgba(255,255,255,.08);margin-top:8px}
+.spec .col{display:flex;gap:10px 40px;flex-wrap:wrap;padding-block:18px;font-family:var(--f-mono);font-size:.78rem;letter-spacing:.06em;color:var(--on-ink-2);min-height:0;align-items:center}
+.spec i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--brass);margin-right:10px;vertical-align:middle}
+.nogl #hero3d{display:none}
+.nogl .stage::after{content:"3D preview needs WebGL";position:absolute;inset:0;display:grid;place-items:center;color:var(--on-ink-2);font-family:var(--f-mono);font-size:.8rem}
+
+/* ---------- sections ---------- */
+section.band{padding-block:clamp(64px,9vw,120px)}
+.head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+.head p{color:var(--muted);max-width:46ch;margin:14px 0 0}
+.head .eyebrow{color:var(--brass-text)}
+.more{font-weight:600;text-decoration:none;border-bottom:1.5px solid currentColor;padding-bottom:2px}
+
+/* spaces */
+.spaces{display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:280px 280px;gap:16px}
+.space{position:relative;border-radius:22px;overflow:hidden;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;justify-content:space-between;padding:24px;isolation:isolate}
+.space img{position:absolute;right:-3%;bottom:-5%;width:62%;height:auto;z-index:-1;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.space:hover img{transform:scale(1.05) rotate(-2deg)}
+.space h3{position:relative;z-index:1;font-family:var(--f-display);font-weight:400;font-size:1.9rem;letter-spacing:-.02em;margin:0;line-height:1.05}
+.space .count{font-family:var(--f-mono);font-size:.76rem;letter-spacing:.08em;color:var(--muted)}
+.space .go{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;align-self:flex-start}
+.space .go svg{width:18px;height:18px}
+.s1{grid-row:1/3;background:var(--sand)}
+.s1 img{width:92%;right:-6%;bottom:-2%}
+.s2{background:var(--mist)}
+.s3{background:var(--stone)}
+.s4{background:var(--ink);color:#fff}
+.s4 .count{color:var(--on-ink-2)}
+.s4 .go{background:var(--brass);color:var(--ink)}
+.s5{background:#e6ddd9}
+
+/* products */
+.rail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.card{background:var(--white);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;border:1px solid #e4e6e2}
+.card .pic{position:relative;aspect-ratio:1/1;max-width:100%;background:#eceeeb;display:grid;place-items:center;overflow:hidden}
+.card .pic img{width:100%;height:100%;object-fit:contain;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.card:hover .pic img{transform:scale(1.04)}
+.card .flag{position:absolute;left:14px;top:14px;font-size:.72rem;font-weight:700;letter-spacing:.04em;padding:5px 10px;border-radius:99px;background:var(--ink);color:#fff}
+.card .flag.sale{background:#b44a1f}
+.card .body{padding:18px 18px 20px;display:flex;flex-direction:column;gap:10px;flex:1}
+.card .sku{font-family:var(--f-mono);font-size:.74rem;color:var(--muted)}
+.card h3{font-size:1.04rem;font-weight:600;margin:0;line-height:1.3}
+.dots{display:flex;gap:6px;align-items:center}
+.dots button{width:30px;height:30px;border-radius:50%;border:2px solid transparent;background:transparent;padding:2px;display:grid;place-items:center}
+.dots button[aria-pressed="true"]{border-color:var(--ink)}
+.dots .sw{width:20px;height:20px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+.dots small{color:var(--muted);font-size:.78rem;margin-left:4px}
+.pr{margin-top:auto;display:grid;gap:2px}
+.pr .now{font-family:var(--f-mono);font-size:1.3rem;font-weight:500}
+.pr .was{font-family:var(--f-mono);font-size:.82rem;color:var(--muted);text-decoration:line-through;margin-left:8px;font-size:.85rem}
+.pr .note{font-size:.8rem;color:var(--muted)}
+.slab{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid #cfe0e4;border-radius:12px;overflow:hidden;background:#eef6f8}
+.slab div{padding:7px 8px;display:grid;gap:0;text-align:center}
+.slab div+div{border-left:1px solid #cfe0e4}
+.slab span{font-size:.68rem;color:#386470;font-weight:600}
+.slab b{font-family:var(--f-mono);font-weight:500;font-size:.9rem}
+.buy{display:grid;grid-template-columns:minmax(0,1fr) 48px;gap:8px}
+.buy .add{border:0;background:var(--ink);color:#fff;border-radius:12px;font-weight:600;padding:13px;min-height:48px}
+.buy .add:hover{background:var(--ink-3)}
+.buy .wa{border:1.5px solid var(--line);background:#fff;border-radius:12px;display:grid;place-items:center}
+.buy .wa svg{width:20px;height:20px;color:var(--ok)}
+[data-show]{display:none}
+body.retail [data-show="retail"],body.dealer [data-show="dealer"]{display:revert}
+body.retail .slab[data-show="retail"],body.dealer .slab[data-show="dealer"]{display:grid}
+body.retail .pr[data-show="retail"],body.dealer .pr[data-show="dealer"]{display:grid}
+
+/* two ways */
+.ways{background:var(--ink);color:var(--on-ink);border-radius:32px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr}
+.way{padding:clamp(28px,5vw,64px);display:flex;flex-direction:column;gap:18px}
+.way + .way{border-left:1px solid rgba(255,255,255,.08);background:var(--ink-2)}
+.way h3{font-family:var(--f-display);font-weight:300;font-size:clamp(1.9rem,3.2vw,2.8rem);letter-spacing:-.02em;line-height:1.05;margin:0;color:#fff}
+.way p{color:var(--on-ink-2);margin:0;max-width:42ch}
+.way ul{list-style:none;padding:0;margin:4px 0 0;display:grid;gap:12px}
+.way li{display:flex;gap:12px;align-items:flex-start}
+.way li svg{flex:none;width:20px;height:20px;color:var(--brass);margin-top:3px}
+.way .eyebrow{color:var(--brass)}
+.locked{position:relative;border:1px solid rgba(255,255,255,.12);border-radius:16px;overflow:hidden;font-family:var(--f-mono)}
+.locked .r{display:grid;grid-template-columns:1.2fr repeat(3,1fr);padding:12px 16px;font-size:.88rem}
+.locked .r.h{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--on-ink-2);background:rgba(255,255,255,.04)}
+.locked .r + .r{border-top:1px solid rgba(255,255,255,.06)}
+.locked .v{transition:filter .4s ease}
+body.retail .locked .v{filter:blur(6px)}
+.locked .lock{border-top:1px solid rgba(255,255,255,.06);padding:10px 16px;font-family:var(--f-body);font-size:.78rem;color:var(--brass);display:flex;gap:6px;align-items:center}
+body.dealer .locked .lock{display:none}
+
+/* set builder */
+.builder{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:stretch}
+.bview{background:var(--white);border-radius:28px;border:1px solid #e4e6e2;position:relative;overflow:hidden;min-height:460px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr))}
+.bview figure{margin:0;display:grid;place-items:center;position:relative;transition:opacity .3s}
+.bview figure.off{opacity:.18}
+.bview figure img{width:86%;height:auto;max-width:100%}
+.bview figcaption{position:absolute;left:16px;top:14px;font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.bview figure:nth-child(1),.bview figure:nth-child(2){border-bottom:1px solid #eceeea}
+.bview figure:nth-child(odd){border-right:1px solid #eceeea}
+.bpanel{background:var(--white);border-radius:28px;border:1px solid #e4e6e2;padding:28px;display:flex;flex-direction:column;gap:20px}
+.bpanel h3{margin:0;font-size:1.05rem}
+.fpick{display:flex;flex-wrap:wrap;gap:8px}
+.fpick button{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:7px 14px 7px 7px;font-weight:600;font-size:.88rem;min-height:44px}
+.fpick button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:#fff}
+.items{display:grid;gap:2px}
+.item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px 4px;border-bottom:1px solid #eceeea;cursor:pointer}
+.item input{width:20px;height:20px;accent-color:var(--ink);margin:0}
+.item .mono{font-size:.95rem}
+.item small{display:block;color:var(--muted);font-size:.8rem}
+.total{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;padding-top:6px}
+.total .mono.big{font-size:2rem;font-weight:500;line-height:1}
+.total small{color:var(--ok);font-weight:600;font-size:.85rem}
+
+/* factory */
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid var(--line)}
+.step{padding:28px 24px 8px 0;display:grid;gap:12px;align-content:start}
+.step + .step{padding-left:24px;border-left:1px solid var(--line)}
+.step .n{font-family:var(--f-display);font-weight:300;font-size:4.2rem;line-height:1;color:var(--brass);font-variation-settings:"opsz" 144}
+.step h3{margin:0;font-size:1.12rem}
+.step p{margin:0;color:var(--muted);font-size:.95rem}
+
+/* dealers */
+.find{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:28px;align-items:start}
+.cities{display:flex;flex-wrap:wrap;gap:8px}
+.cities button{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:10px 18px;font-weight:600;min-height:44px}
+.cities button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.dlist{display:grid;gap:12px}
+.dealer{background:#fff;border:1px solid #e4e6e2;border-radius:18px;padding:18px 20px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;align-items:center}
+.dealer b{font-size:1.02rem}
+.dealer span{color:var(--muted);font-size:.9rem}
+.dealer .mono{color:var(--ink);font-size:.88rem}
+.dealer a{grid-row:1/4;grid-column:2;text-decoration:none;font-weight:600;font-size:.9rem;border:1.5px solid var(--ink);border-radius:99px;padding:9px 16px}
+
+/* footer */
+footer{background:var(--ink);color:var(--on-ink-2);overflow:hidden}
+.fgrid{display:grid;grid-template-columns:1.5fr repeat(3,minmax(0,1fr));gap:32px;padding-block:72px 40px}
+.fgrid h4{color:#fff;margin:0 0 14px;font-size:.95rem}
+.fgrid a{display:block;text-decoration:none;padding-block:4px;font-size:.93rem}
+.fgrid a:hover{color:#fff}
+.word{font-family:var(--f-display);font-weight:300;font-size:clamp(5rem,24vw,26.5rem);line-height:.8;letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1px rgba(198,146,70,.55);white-space:nowrap;margin:0;padding-bottom:12px;user-select:none}
+.legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.08);padding-block:20px;font-size:.82rem}
+
+.toast{visibility:hidden;position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,calc(100% + 60px));background:var(--ink);color:#fff;border:1px solid rgba(255,255,255,.12);border-radius:99px;padding:12px 20px;font-weight:600;font-size:.92rem;z-index:70;transition:transform .35s cubic-bezier(.2,.7,.2,1);display:flex;gap:10px;align-items:center}
+.toast.on{transform:translate(-50%,0);visibility:visible}
+.toast i{width:8px;height:8px;border-radius:50%;background:var(--brass)}
+
+@media (max-width:1080px){
+  .links{display:none}
+  .rail{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .spaces{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .spaces .space{min-height:240px}
+  .s1{grid-row:auto;grid-column:1/-1;min-height:320px!important}
+  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .step:nth-child(3){padding-left:0;border-left:0}
+  .fgrid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:860px){
+  .hero .col{grid-template-columns:1fr;min-height:0;padding-block:40px 0}
+  .stage{height:440px}
+  .tag{left:2%;top:2%}
+  .ways,.builder,.find{grid-template-columns:1fr}
+  .way + .way{border-left:0;border-top:1px solid rgba(255,255,255,.08)}
+}
+@media (max-width:560px){
+  .nav .col{gap:10px}
+  .mode button{padding:8px 10px}
+  .urdu{display:none}
+  .rail{grid-template-columns:1fr 1fr;gap:10px}
+  .card .body{padding:12px;gap:8px}
+  .card h3{font-size:.92rem}
+  .pr .now{font-size:1.05rem}
+  .pr .was{display:none}
+  .buy{grid-template-columns:1fr}
+  .buy .wa{display:none}
+  .slab span{font-size:.6rem}.slab b{font-size:.74rem}
+  .spaces{grid-template-columns:1fr}
+  .spaces .space{min-height:300px}
+  .space img,.s1 img{width:56%;right:-2%;bottom:-3%}
+  .steps{grid-template-columns:1fr}
+  .step,.step + .step{padding-left:0;border-left:0;border-top:1px solid var(--line)}
+  .bview{min-height:340px}
+  .fgrid{grid-template-columns:1fr}
+}
+</style>
+
+<nav class="nav gut" aria-label="Main">
+  <div class="col">
+    <a class="logo" href="#top" aria-label="Aabshar home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2.5c5.6 7.6 10 12.4 10 18.2a10 10 0 0 1-20 0C6 14.9 10.4 10.1 16 2.5Z" fill="none" stroke="#c69246" stroke-width="1.6"/><path d="M11.5 21.5a4.6 4.6 0 0 0 4.5 4.6" stroke="#c69246" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
+      <b>Aabshar</b>
+    </a>
+    <div class="links">
+      <a href="#spaces">Shop</a>
+      <a href="#sets">Bathroom sets</a>
+      <a href="#ways">Dealers</a>
+      <a href="#factory">Factory</a>
+      <a href="#find">Find a shop</a>
+    </div>
+    <div class="right">
+      <a class="urdu" href="#top" lang="ur">اردو</a>
+      <div class="mode" role="group" aria-label="Show prices for">
+        <button type="button" id="m-retail" aria-pressed="true">Home</button>
+        <button type="button" id="m-dealer" aria-pressed="false">Dealer</button>
+      </div>
+      <a class="iconbtn" href="#best" aria-label="Cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg><span class="badge" id="cart">0</span></a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero gut" id="top">
+  <div class="col">
+    <div>
+      <span class="eyebrow" style="color:var(--brass)">Lahore factory · since [year]</span>
+      <h1 class="display" style="margin-top:18px">Water, shaped in <em>solid brass.</em></h1>
+      <p class="lede" id="hero-lede">Taps, showers and fittings made in our own factory. Order one for your home, or buy by the carton for your shop.</p>
+      <div class="ctas">
+        <a class="btn brass" href="#best">Shop best sellers <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn ghost" href="#ways" id="hero-cta2">Become a dealer</a>
+      </div>
+    </div>
+    <div class="stage" id="stage">
+      <div class="glow" aria-hidden="true"></div>
+      <canvas id="hero3d" aria-label="Basin mixer AB-1204 in 3D. Drag sideways to turn it." role="img"></canvas>
+      <div class="tag" aria-live="polite">
+        <span class="mono">AB-1204 · Basin mixer</span>
+        <b id="tag-finish">Polished chrome</b>
+        <span class="price" id="tag-price">Rs 8,500</span>
+      </div>
+      <div class="finishes" role="group" aria-label="Finish">
+        <button type="button" data-f="chrome" aria-pressed="true"><span class="sw chrome"></span>Chrome</button>
+        <button type="button" data-f="black" aria-pressed="false"><span class="sw black"></span>Matt black</button>
+        <button type="button" data-f="gold" aria-pressed="false"><span class="sw gold"></span>Brushed gold</button>
+        <button type="button" data-f="gunmetal" aria-pressed="false"><span class="sw gunmetal"></span>Gunmetal</button>
+      </div>
+    </div>
+  </div>
+  <div class="spec gut" style="padding-inline:0">
+    <div class="col">
+      <span><i></i>LEAD-FREE BRASS BODY</span>
+      <span><i></i>35 MM CERAMIC CARTRIDGE</span>
+      <span><i></i>½″ BSP · FITS EVERY PAKISTANI PIPE</span>
+      <span><i></i>10-YEAR LEAK WARRANTY</span>
+      <span><i></i>CASH ON DELIVERY NATIONWIDE</span>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="band gut" id="spaces">
+  <div class="col">
+    <div class="head">
+      <div>
+        <span class="eyebrow">Shop by space</span>
+        <h2 class="display h2" style="margin-top:12px">Everything behind the bathroom door</h2>
+      </div>
+      <a class="more" href="#best">All 5 categories</a>
+    </div>
+    <div class="spaces">
+      <a class="space s1" href="#best"><div><span class="count">TAPS &amp; MIXERS</span><h3 style="margin-top:8px">Basin, sink<br>and bath mixers</h3></div><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span><img alt="" data-r="mixer" data-f="gold"></a>
+      <a class="space s2" href="#best"><div><span class="count">SHOWERS</span><h3 style="margin-top:8px">Rain showers</h3></div><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span><img alt="" data-r="rain" data-f="chrome"></a>
+      <a class="space s3" href="#best"><div><span class="count">HYGIENE</span><h3 style="margin-top:8px">Muslim showers</h3></div><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span><img alt="" data-r="hand" data-f="black"></a>
+      <a class="space s5" href="#best"><div><span class="count">CERAMICS</span><h3 style="margin-top:8px">Basins</h3></div><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span><img alt="" data-r="basin" data-f="chrome"></a>
+      <a class="space s4" href="#best"><div><span class="count">PLUMBING</span><h3 style="margin-top:8px">Valves &amp; fittings</h3></div><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span><img alt="" data-r="valve" data-f="gold"></a>
+    </div>
+  </div>
+</section>
+
+<section class="band gut" id="best" style="padding-top:0">
+  <div class="col">
+    <div class="head">
+      <div>
+        <span class="eyebrow" data-show="retail">Best sellers</span>
+        <span class="eyebrow" data-show="dealer">Dealer price list · Tier B</span>
+        <h2 class="display h2" style="margin-top:12px" data-show="retail">Most ordered this month</h2>
+        <h2 class="display h2" style="margin-top:12px" data-show="dealer">Your carton prices</h2>
+        <p data-show="retail">Tap a finish to see it. Prices include delivery in Lahore.</p>
+        <p data-show="dealer">Price per piece drops with cartons. Order on credit or bank transfer.</p>
+      </div>
+      <a class="more" href="#spaces">See all products</a>
+    </div>
+    <div class="rail" id="rail"></div>
+  </div>
+</section>
+
+<section class="gut" id="ways">
+  <div class="col">
+    <div class="ways">
+      <div class="way">
+        <span class="eyebrow">For your home</span>
+        <h3>One tap or a full bathroom, at factory price.</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Cash on Delivery, JazzCash, Easypaisa or bank</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Delivery in 2–5 days, cost shown by city</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>10-year warranty, registered online</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Order on WhatsApp if you prefer to chat</li>
+        </ul>
+        <div class="ctas" style="margin-top:auto"><a class="btn brass" href="#sets">Build a bathroom set</a></div>
+      </div>
+      <div class="way">
+        <span class="eyebrow">For sanitary shop owners</span>
+        <h3>Buy by the carton. Pay on credit.</h3>
+        <p>Approved dealers see slab prices, reorder past orders in one click and keep a live khata with us.</p>
+        <div class="locked">
+          <div class="r h"><span>AB-1204</span><span>1–4 ctn</span><span>5–19 ctn</span><span>20+ ctn</span></div>
+          <div class="r"><span style="color:var(--on-ink-2)">Per piece</span><span class="v">6,900</span><span class="v">6,600</span><span class="v">6,400</span></div>
+          <div class="r"><span style="color:var(--on-ink-2)">Carton</span><span>10 pcs</span><span>10 pcs</span><span>10 pcs</span></div>
+          <span class="lock"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Unlocks after approval</span>
+        </div>
+        <div class="ctas" style="margin-top:6px">
+          <a class="btn brass" href="#ways" data-show="retail">Apply as a dealer</a>
+          <button class="btn ghost" type="button" data-show="retail" id="try-dealer">Preview dealer prices</button>
+          <a class="btn brass" href="#best" data-show="dealer">Open quick order</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band gut" id="sets">
+  <div class="col">
+    <div class="head">
+      <div>
+        <span class="eyebrow">Bathroom set builder</span>
+        <h2 class="display h2" style="margin-top:12px">One finish, every fitting</h2>
+        <p>Pick a finish and the pieces you need. Buy the full set and save 10%.</p>
+      </div>
+    </div>
+    <div class="builder">
+      <div class="bview" id="bview" aria-label="Preview of the chosen set"></div>
+      <div class="bpanel">
+        <div style="display:grid;gap:12px">
+          <h3>1. Finish</h3>
+          <div class="fpick" role="group" aria-label="Set finish" id="fpick"></div>
+        </div>
+        <div style="display:grid;gap:6px">
+          <h3>2. Pieces</h3>
+          <div class="items" id="items"></div>
+        </div>
+        <div class="total">
+          <div style="display:grid;gap:6px">
+            <span style="color:var(--muted);font-size:.88rem" id="t-count">4 pieces</span>
+            <span class="mono big" id="t-sum">Rs 0</span>
+            <small id="t-save"></small>
+          </div>
+          <button class="btn dark" type="button" id="add-set">Add set to cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band gut" id="factory" style="background:var(--white)">
+  <div class="col">
+    <div class="head">
+      <div>
+        <span class="eyebrow">From our factory floor</span>
+        <h2 class="display h2" style="margin-top:12px">Four steps before a tap leaves us</h2>
+      </div>
+      <a class="more" href="#factory">Visit the factory</a>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="n">01</span><h3>Brass casting</h3><p>Bodies poured from lead-free brass, never zinc alloy, so they do not crack under pressure.</p></div>
+      <div class="step"><span class="n">02</span><h3>CNC machining</h3><p>Threads cut to ½″ BSP. Every piece fits standard Pakistani plumbing.</p></div>
+      <div class="step"><span class="n">03</span><h3>Layered plating</h3><p>Nickel, then chrome or PVD colour. Made for hard water and salt air.</p></div>
+      <div class="step"><span class="n">04</span><h3>Pressure test</h3><p>Each piece tested at [test bar] for leaks, then boxed with its warranty card.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band gut" id="find">
+  <div class="col find">
+    <div>
+      <span class="eyebrow" style="color:var(--brass-text)">Find a shop</span>
+      <h2 class="display h2" style="margin-top:12px">Touch it before you buy it</h2>
+      <p style="color:var(--muted);margin:14px 0 24px;max-width:40ch">Our fittings are on display at authorised dealers. Pick your city.</p>
+      <div class="cities" role="group" aria-label="City" id="cities"></div>
+    </div>
+    <div class="dlist" id="dlist" aria-live="polite"></div>
+  </div>
+</section>
+</main>
+
+<footer class="gut">
+  <div class="col">
+    <div class="fgrid">
+      <div style="display:grid;gap:14px;align-content:start">
+        <a class="logo" href="#top" style="padding:0"><b style="color:#fff">Aabshar</b></a>
+        <p style="margin:0;max-width:34ch">Sanitary fittings made in [city], Pakistan. Sold to homes and through [No.] dealers.</p>
+        <span class="mono" style="color:#fff">WhatsApp 0300 000 0000</span>
+      </div>
+      <div><h4>Shop</h4><a href="#spaces">Taps &amp; mixers</a><a href="#spaces">Showers</a><a href="#spaces">Muslim showers</a><a href="#sets">Bathroom sets</a></div>
+      <div><h4>Dealers</h4><a href="#ways">Become a dealer</a><a href="#ways">Dealer login</a><a href="#ways">Price list</a><a href="#find">Find a shop</a></div>
+      <div><h4>Help</h4><a href="#top">Track order</a><a href="#top">Warranty registration</a><a href="#top">Returns</a><a href="#top">Installation videos</a></div>
+    </div>
+    <p class="word" aria-hidden="true">Aabshar</p>
+    <div class="legal"><span>© 2026 Aabshar Sanitary · design concept, names and prices are examples</span><span>Cash on Delivery · JazzCash · Easypaisa · Bank</span></div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status"><i></i><span id="toast-t">Added</span></div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
+<script>
+(function(){
+"use strict";
+var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+function rs(n){ return "Rs " + Math.round(n).toLocaleString("en-PK"); }
+
+/* ---------- data ---------- */
+var FIN = {
+  chrome:{label:"Polished chrome", short:"Chrome", mult:1},
+  black:{label:"Matt black", short:"Matt black", mult:1.1},
+  gold:{label:"Brushed gold", short:"Brushed gold", mult:1.4},
+  gunmetal:{label:"Gunmetal", short:"Gunmetal", mult:1.25}
+};
+var PRODUCTS = [
+  {id:"AB-1204", name:"Basin mixer, single lever", model:"mixer", price:8500, was:9900, carton:10, slabs:[6900,6600,6400], flag:"−14%", sale:true, fins:["chrome","black","gold","gunmetal"]},
+  {id:"AB-5102", name:"Rain shower 10″ with wall arm", model:"rain", price:6200, was:7000, carton:8, slabs:[4900,4700,4500], flag:"New", fins:["chrome","black","gold"]},
+  {id:"AB-3310", name:"Muslim shower set, 1.2 m hose", model:"hand", price:1950, was:0, carton:20, slabs:[1500,1400,1320], flag:"Top seller", fins:["chrome","black"]},
+  {id:"AB-7720", name:"Angle valve ½″, quarter turn", model:"valve", price:450, was:0, carton:50, slabs:[340,320,300], flag:"", fins:["chrome","gold"]}
+];
+var SET = [
+  {id:"mixer", name:"Basin mixer", sku:"AB-1204", price:8500, model:"mixer", on:true},
+  {id:"rain", name:"Rain shower 10″ + arm", sku:"AB-5102", price:6200, model:"rain", on:true},
+  {id:"hand", name:"Muslim shower set", sku:"AB-3310", price:1950, model:"hand", on:true},
+  {id:"valve", name:"Angle valves ½″ (pair)", sku:"AB-7720", price:900, model:"valve", on:true}
+];
+var CITIES = {
+  Lahore:[["[Dealer shop name]","Shah Alam Market · [street]"],["[Dealer shop name]","Ferozepur Road · [street]"]],
+  Karachi:[["[Dealer shop name]","Plumbing Market, Saddar · [street]"],["[Dealer shop name]","Gulshan-e-Iqbal · [street]"]],
+  Islamabad:[["[Dealer shop name]","I-8 Markaz · [street]"]],
+  Faisalabad:[["[Dealer shop name]","Kotwali Road · [street]"]],
+  Gujranwala:[["[Dealer shop name]","GT Road · [street]"]],
+  Multan:[["[Dealer shop name]","Hussain Agahi · [street]"]],
+  Peshawar:[["[Dealer shop name]","University Road · [street]"]]
+};
+
+/* ---------- mode ---------- */
+var mode = "retail";
+try { if (localStorage.getItem("aab-mode") === "dealer") mode = "dealer"; } catch(e){}
+function setMode(m){
+  mode = m;
+  document.body.classList.toggle("dealer", m === "dealer");
+  document.body.classList.toggle("retail", m !== "dealer");
+  document.getElementById("m-retail").setAttribute("aria-pressed", String(m !== "dealer"));
+  document.getElementById("m-dealer").setAttribute("aria-pressed", String(m === "dealer"));
+  document.getElementById("hero-cta2").textContent = m === "dealer" ? "Open dealer portal" : "Become a dealer";
+  updateTag(); renderSetTotals();
+  try { localStorage.setItem("aab-mode", m); } catch(e){}
+}
+document.getElementById("m-retail").addEventListener("click", function(){ setMode("retail"); });
+document.getElementById("m-dealer").addEventListener("click", function(){ setMode("dealer"); toast("Dealer prices shown (demo)"); });
+document.getElementById("try-dealer").addEventListener("click", function(){ setMode("dealer"); toast("Dealer prices shown (demo)"); });
+
+/* ---------- toast + cart ---------- */
+var cart = 0, tt;
+function toast(t){ var el=document.getElementById("toast"); document.getElementById("toast-t").textContent=t; el.classList.add("on"); clearTimeout(tt); tt=setTimeout(function(){el.classList.remove("on");},2200); }
+function addCart(n, label){ cart += n; document.getElementById("cart").textContent = cart; toast(label); }
+
+/* ---------- 3D ---------- */
+var gl = !!window.THREE;
+if (gl) { try { var t = document.createElement("canvas"); gl = !!(t.getContext("webgl2") || t.getContext("webgl")); } catch(e){ gl = false; } }
+if (!gl) document.body.classList.add("nogl");
+
+var MAT = {}, ENV = null;
+function finishMat(f){
+  var p = {
+    chrome:{color:0xf3f5f8, metalness:1, roughness:0.07},
+    black:{color:0x1c1d20, metalness:0.5, roughness:0.48, clearcoat:0.25, clearcoatRoughness:0.5},
+    gold:{color:0xe2b866, metalness:1, roughness:0.26},
+    gunmetal:{color:0x6e727a, metalness:1, roughness:0.22}
+  }[f];
+  return new THREE.MeshPhysicalMaterial(Object.assign({envMapIntensity:1.15}, p));
+}
+function getMat(f){ if(!MAT[f]) MAT[f] = finishMat(f); return MAT[f]; }
+var DARK, CERAMIC, HOSE, WATER;
+
+function makeEnv(renderer, bright){
+  var s = new THREE.Scene();
+  var room = new THREE.Mesh(new THREE.BoxGeometry(10,10,10), new THREE.MeshBasicMaterial({color:bright?0x3a4049:0x2a2f37, side:THREE.BackSide}));
+  s.add(room);
+  function panel(w,h,x,y,z,ry,rx,k){
+    var m = new THREE.Mesh(new THREE.PlaneGeometry(w,h), new THREE.MeshBasicMaterial({color:new THREE.Color(k,k,k), side:THREE.DoubleSide}));
+    m.position.set(x,y,z); m.rotation.y = ry||0; m.rotation.x = rx||0; s.add(m);
+  }
+  var kb = bright ? 1.25 : 1;
+  panel(8,8,0,4.9,0,0,Math.PI/2,2.2*kb);    // ceiling
+  panel(3,6,-4.8,0.6,0,Math.PI/2,0,4.5*kb); // left softbox
+  panel(2,5,4.8,0.8,-1,-Math.PI/2,0,3*kb);  // right softbox
+  panel(6,2.5,0,0.8,-4.8,0,0,1.4*kb);       // back fill
+  var floor = new THREE.Mesh(new THREE.PlaneGeometry(10,10), new THREE.MeshBasicMaterial({color:0x111418, side:THREE.DoubleSide}));
+  floor.rotation.x = -Math.PI/2; floor.position.y = -4.9; s.add(floor);
+  var warm = new THREE.Mesh(new THREE.PlaneGeometry(2.5,2.5), new THREE.MeshBasicMaterial({color:new THREE.Color(4,2.6,1.2), side:THREE.DoubleSide}));
+  warm.position.set(3,2.5,4.6); warm.lookAt(0,0,0); s.add(warm);
+  var pm = new THREE.PMREMGenerator(renderer);
+  var tex = pm.fromScene(s, 0.035).texture;
+  pm.dispose();
+  return tex;
+}
+
+function tube(pts, r, mat, seg){
+  var c = new THREE.CatmullRomCurve3(pts.map(function(p){ return new THREE.Vector3(p[0],p[1],p[2]); }));
+  return new THREE.Mesh(new THREE.TubeGeometry(c, seg||80, r, 32, false), mat);
+}
+function cyl(rt, rb, h, mat, seg){ return new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, h, seg||72), mat); }
+function M(mesh){ mesh.userData.finish = true; return mesh; }
+
+function buildModel(type, f){
+  var g = new THREE.Group(), m = getMat(f);
+  if (type === "mixer"){
+    var base = M(cyl(0.36,0.38,0.06,m)); base.position.y = 0.03; g.add(base);
+    var body = M(cyl(0.265,0.285,1.45,m)); body.position.y = 0.785; g.add(body);
+    var cap = M(cyl(0.27,0.268,0.18,m)); cap.position.y = 1.6; g.add(cap);
+    var ring = cyl(0.272,0.272,0.012,DARK); ring.position.y = 1.51; g.add(ring);
+    var hub = M(new THREE.Mesh(new THREE.SphereGeometry(0.1,32,16), m)); hub.position.set(0,1.72,-0.04); g.add(hub);
+    var lever = M(new THREE.Mesh(new THREE.CapsuleGeometry(0.052,0.66,8,24), m));
+    lever.position.set(0,1.82,-0.36); lever.rotation.x = Math.PI/2 - 0.32; g.add(lever);
+    g.add(M(tube([[0,1.18,0.12],[0,1.29,0.5],[0,1.3,0.9],[0,1.22,1.1]],0.1,m)));
+    var tip = M(cyl(0.1,0.1,0.06,m)); tip.position.set(0,1.18,1.12); g.add(tip);
+    var aer = cyl(0.078,0.078,0.03,DARK); aer.position.set(0,1.145,1.12); g.add(aer);
+    if (type === "mixer" && f && arguments[2]) {
+      var w = new THREE.Mesh(new THREE.CylinderGeometry(0.045,0.06,1.12,24,1,true), WATER); w.position.set(0,0.58,1.12); w.name="water"; g.add(w);
+    }
+  } else if (type === "rain"){
+    var head = M(cyl(0.9,0.9,0.07,m,96)); g.add(head);
+    var face = cyl(0.84,0.84,0.012,DARK,96); face.position.y = -0.04; g.add(face);
+    var nz = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.018,0.018,0.02,10), new THREE.MeshStandardMaterial({color:0x9aa3ad, roughness:0.6}), 140);
+    var d = new THREE.Object3D(), i = 0;
+    for (var rr=0.12; rr<0.8 && i<140; rr+=0.11){ var n = Math.round(rr*40); for (var k=0;k<n && i<140;k++){ var a=k/n*Math.PI*2; d.position.set(Math.cos(a)*rr,-0.05,Math.sin(a)*rr); d.updateMatrix(); nz.setMatrixAt(i++, d.matrix); } }
+    nz.count = i; g.add(nz);
+    var ball = M(new THREE.Mesh(new THREE.SphereGeometry(0.11,32,16), m)); ball.position.set(0,0.1,0); g.add(ball);
+    g.add(M(tube([[0,0.12,0],[0,0.3,-0.5],[0,0.55,-1.15],[0,0.62,-1.6]],0.055,m)));
+    var fl = M(cyl(0.2,0.2,0.06,m)); fl.rotation.x = Math.PI/2; fl.position.set(0,0.62,-1.63); g.add(fl);
+  } else if (type === "hand"){
+    var hb = new THREE.Group();
+    var grip = M(new THREE.Mesh(new THREE.CapsuleGeometry(0.11,0.62,8,24), m)); hb.add(grip);
+    var hd = M(cyl(0.22,0.12,0.24,m)); hd.position.y = 0.5; hb.add(hd);
+    var sp = cyl(0.19,0.19,0.01,DARK); sp.position.y = 0.625; hb.add(sp);
+    var trig = M(new THREE.Mesh(new THREE.BoxGeometry(0.06,0.34,0.08), m)); trig.position.set(0,0.12,0.13); trig.rotation.x = -0.2; hb.add(trig);
+    hb.rotation.z = -0.55; hb.rotation.x = 0.45; hb.position.set(-0.2,0.6,0); g.add(hb);
+    g.add(tube([[0.04,0.2,0],[0.25,-0.3,0.15],[0.7,-0.5,0.1],[1.05,-0.2,-0.1],[1.1,0.4,-0.2],[0.95,0.9,-0.25]],0.04,HOSE,120));
+    var holder = M(cyl(0.16,0.16,0.05,m)); holder.rotation.x = Math.PI/2; holder.position.set(0.95,0.95,-0.3); g.add(holder);
+  } else if (type === "valve"){
+    var vb = M(cyl(0.17,0.17,0.62,m)); vb.rotation.z = Math.PI/2; g.add(vb);
+    var wf = M(cyl(0.34,0.34,0.05,m)); wf.rotation.z = Math.PI/2; wf.position.x = -0.36; g.add(wf);
+    var out = M(cyl(0.11,0.11,0.5,m)); out.position.set(0.05,0.3,0); g.add(out);
+    var nut = M(cyl(0.14,0.14,0.12,m,6)); nut.position.set(0.05,0.55,0); g.add(nut);
+    var kn = M(cyl(0.22,0.24,0.14,m)); kn.rotation.z = Math.PI/2; kn.position.x = 0.38; g.add(kn);
+    var bar = M(new THREE.Mesh(new THREE.CapsuleGeometry(0.05,0.36,6,16), m)); bar.position.set(0.47,0,0); g.add(bar);
+    var dot = cyl(0.05,0.05,0.02,new THREE.MeshStandardMaterial({color:0x2f6fd6, roughness:0.4})); dot.rotation.z = Math.PI/2; dot.position.set(0.535,0.12,0); g.add(dot);
+  } else if (type === "basin"){
+    var prof = [[0,0],[0.5,0.02],[0.95,0.14],[1.18,0.42],[1.24,0.56],[1.2,0.6],[1.12,0.54],[0.92,0.28],[0.45,0.13],[0,0.11]].map(function(p){return new THREE.Vector2(p[0],p[1]);});
+    var bowl = new THREE.Mesh(new THREE.LatheGeometry(prof,128), CERAMIC); g.add(bowl);
+    var drain = M(cyl(0.12,0.12,0.02,m)); drain.position.y = 0.12; g.add(drain);
+    var slab = new THREE.Mesh(new THREE.BoxGeometry(3.2,0.12,1.9), new THREE.MeshStandardMaterial({color:0x8d8578, roughness:0.55})); slab.position.y = -0.06; g.add(slab);
+  }
+  return g;
+}
+
+function shadowTex(){
+  var c = document.createElement("canvas"); c.width = c.height = 256;
+  var x = c.getContext("2d"), gr = x.createRadialGradient(128,128,0,128,128,128);
+  gr.addColorStop(0,"rgba(0,0,0,0.55)"); gr.addColorStop(0.5,"rgba(0,0,0,0.18)"); gr.addColorStop(1,"rgba(0,0,0,0)");
+  x.fillStyle = gr; x.fillRect(0,0,256,256);
+  return new THREE.CanvasTexture(c);
+}
+var SHADOW;
+
+function frame(obj, cam, pad, dir){
+  var box = new THREE.Box3().setFromObject(obj), size = box.getSize(new THREE.Vector3()), ctr = box.getCenter(new THREE.Vector3());
+  var r = size.length()/2 * (pad||1.1);
+  var dist = r / Math.sin(THREE.MathUtils.degToRad(cam.fov/2));
+  var d = (dir || new THREE.Vector3(1.1,0.55,1.6)).clone().normalize();
+  cam.position.copy(ctr).addScaledVector(d, dist);
+  cam.near = dist/20; cam.far = dist*10; cam.updateProjectionMatrix();
+  cam.lookAt(ctr);
+  return box;
+}
+
+var VIEW = {
+  mixer:{rot:-0.55, dir:[1,0.35,1.5], pad:0.92},
+  rain:{rot:-0.6, dir:[0.6,0.9,1.4], pad:0.95},
+  hand:{rot:0.35, dir:[0.4,0.7,1.6], pad:0.95},
+  valve:{rot:-0.5, dir:[0.7,0.5,1.5], pad:0.95},
+  basin:{rot:0, dir:[0,1.1,1.5], pad:0.82}
+};
+
+var snapR, snapScene, snapCam, cache = {};
+function snap(type, f){
+  var key = type+"/"+f;
+  if (cache[key]) return cache[key];
+  if (!gl) return "";
+  var g = buildModel(type, f), v = VIEW[type];
+  g.rotation.y = v.rot;
+  snapScene.add(g);
+  var box = new THREE.Box3().setFromObject(g);
+  var sh = new THREE.Mesh(new THREE.PlaneGeometry(1,1), new THREE.MeshBasicMaterial({map:SHADOW, transparent:true, depthWrite:false}));
+  var sz = box.getSize(new THREE.Vector3());
+  sh.scale.set(Math.max(sz.x,sz.z)*1.5, Math.max(sz.x,sz.z)*1.5, 1); sh.rotation.x = -Math.PI/2; sh.position.set((box.min.x+box.max.x)/2, box.min.y+0.002, (box.min.z+box.max.z)/2);
+  if (type !== "rain") snapScene.add(sh);
+  frame(g, snapCam, v.pad, new THREE.Vector3(v.dir[0],v.dir[1],v.dir[2]));
+  snapR.render(snapScene, snapCam);
+  var url = snapR.domElement.toDataURL("image/png");
+  snapScene.remove(g); snapScene.remove(sh);
+  cache[key] = url;
+  return url;
+}
+
+var hero = null;
+function initGL(){
+  THREE.ColorManagement.legacyMode = false;
+  snapR = new THREE.WebGLRenderer({antialias:true, alpha:true, preserveDrawingBuffer:true});
+  snapR.setPixelRatio(1); snapR.setSize(720,720,false);
+  snapR.outputEncoding = THREE.sRGBEncoding; snapR.toneMapping = THREE.ACESFilmicToneMapping; snapR.toneMappingExposure = 1.05;
+  snapR.setClearColor(0x000000, 0);
+  ENV = makeEnv(snapR, true);
+  DARK = new THREE.MeshStandardMaterial({color:0x26282c, roughness:0.55, metalness:0.2});
+  CERAMIC = new THREE.MeshPhysicalMaterial({color:0xfbfbf9, roughness:0.16, metalness:0, clearcoat:1, clearcoatRoughness:0.08});
+  HOSE = new THREE.MeshPhysicalMaterial({color:0xc9ced4, metalness:1, roughness:0.35});
+  WATER = new THREE.MeshPhysicalMaterial({color:0xd8f0ff, roughness:0, metalness:0, transparent:true, opacity:0.32, envMapIntensity:2});
+  SHADOW = shadowTex();
+  snapScene = new THREE.Scene(); snapScene.environment = ENV;
+  snapCam = new THREE.PerspectiveCamera(26, 1, 0.1, 100);
+
+  // hero
+  var cv = document.getElementById("hero3d");
+  var r = new THREE.WebGLRenderer({canvas:cv, antialias:true, alpha:true});
+  r.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+  r.outputEncoding = THREE.sRGBEncoding; r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 1.1;
+  r.setClearColor(0x000000, 0);
+  var sc = new THREE.Scene(); sc.environment = makeEnv(r);
+  var cam = new THREE.PerspectiveCamera(24, 1, 0.1, 100);
+  var pivot = new THREE.Group(); sc.add(pivot);
+  var model = buildModel("mixer", "chrome"); pivot.add(model);
+  var plinth = new THREE.Mesh(new THREE.CylinderGeometry(1.25,1.25,0.16,128), new THREE.MeshPhysicalMaterial({color:0x1b2537, roughness:0.35, metalness:0.1, clearcoat:0.6, clearcoatRoughness:0.25}));
+  plinth.position.y = -0.08; pivot.add(plinth);
+  var edge = new THREE.Mesh(new THREE.TorusGeometry(1.25,0.008,8,160), new THREE.MeshStandardMaterial({color:0xc69246, metalness:1, roughness:0.3}));
+  edge.rotation.x = Math.PI/2; edge.position.y = 0.0; pivot.add(edge);
+  var sh = new THREE.Mesh(new THREE.PlaneGeometry(2.2,2.2), new THREE.MeshBasicMaterial({map:SHADOW, transparent:true, depthWrite:false, opacity:0.9}));
+  sh.rotation.x = -Math.PI/2; sh.position.set(0,0.002,0.25); pivot.add(sh);
+  pivot.position.y = -0.85;
+  cam.position.set(3.1, 1.35, 6.3); cam.lookAt(0, 0.12, 0.25);
+
+  var water = model.getObjectByName("water");
+  var target = -0.45, cur = -0.9, drag = null, last = 0;
+  function size(){
+    var w = cv.clientWidth, h = cv.clientHeight; if (!w || !h) return;
+    r.setSize(w, h, false); cam.aspect = w/h;
+    cam.fov = w/h < 0.9 ? 32 : 24;
+    cam.updateProjectionMatrix();
+  }
+  size(); window.addEventListener("resize", size);
+  cv.addEventListener("pointerdown", function(e){ drag = e.clientX; cv.setPointerCapture(e.pointerId); });
+  cv.addEventListener("pointermove", function(e){
+    if (drag !== null){ target += (e.clientX - drag) * 0.008; drag = e.clientX; }
+  });
+  cv.addEventListener("pointerup", function(){ drag = null; });
+  cv.style.cursor = "grab"; cv.style.touchAction = "pan-y";
+  var visible = true;
+  if ("IntersectionObserver" in window) new IntersectionObserver(function(es){ visible = es[0].isIntersecting; }).observe(cv);
+  function tick(t){
+    requestAnimationFrame(tick);
+    if (!visible) return;
+    if (!reduce && drag === null) target += 0.0016;
+    cur += (target - cur) * 0.06;
+    pivot.rotation.y = cur;
+    if (water){ water.scale.x = water.scale.z = 1 + Math.sin(t*0.012)*0.06; }
+    r.render(sc, cam);
+  }
+  requestAnimationFrame(tick);
+  hero = {set:function(f){ model.traverse(function(o){ if (o.userData.finish) o.material = getMat(f); }); }};
+}
+
+/* ---------- hero finishes ---------- */
+var heroF = "chrome";
+function updateTag(){
+  var p = PRODUCTS[0], mult = FIN[heroF].mult;
+  document.getElementById("tag-finish").textContent = FIN[heroF].label;
+  document.getElementById("tag-price").textContent = mode === "dealer" ? rs(p.slabs[2]*mult) + " / pc at 20+ ctn" : rs(p.price*mult);
+}
+Array.prototype.forEach.call(document.querySelectorAll(".finishes button"), function(b){
+  b.addEventListener("click", function(){
+    heroF = b.dataset.f;
+    document.querySelectorAll(".finishes button").forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); });
+    if (hero) hero.set(heroF);
+    updateTag();
+  });
+});
+
+/* ---------- product rail ---------- */
+function renderRail(){
+  var rail = document.getElementById("rail");
+  rail.innerHTML = PRODUCTS.map(function(p, i){
+    var dots = p.fins.map(function(f, j){ return '<button type="button" data-i="'+i+'" data-f="'+f+'" aria-pressed="'+(j===0)+'" aria-label="'+FIN[f].label+'"><span class="sw '+f+'"></span></button>'; }).join("");
+    return '<article class="card">'+
+      '<div class="pic">'+(p.flag?'<span class="flag'+(p.sale?' sale':'')+'">'+p.flag+'</span>':'')+'<img id="img-'+i+'" alt="'+p.name+'"></div>'+
+      '<div class="body">'+
+        '<span class="sku">'+p.id+'</span><h3>'+p.name+'</h3>'+
+        '<div class="dots" role="group" aria-label="Finish">'+dots+'<small id="fn-'+i+'">'+FIN[p.fins[0]].short+'</small></div>'+
+        '<div class="pr" data-show="retail"><div><span class="now" id="pn-'+i+'"></span>'+(p.was?'<span class="was" id="pw-'+i+'"></span>':'')+'</div><span class="note">or 3 easy payments via Easypaisa</span></div>'+
+        '<div class="pr" data-show="dealer"><div class="slab" id="sl-'+i+'"></div><span class="note">Carton of '+p.carton+' pcs · MOQ 1 carton</span></div>'+
+        '<div class="buy"><button class="add" type="button" data-add="'+i+'"><span data-show="retail">Add to cart</span><span data-show="dealer">Add 1 carton</span></button>'+
+        '<button class="wa" type="button" aria-label="Order '+p.id+' on WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19.2L4 20Z"/><path d="M9 10c.4 2 2 3.6 4 4"/></svg></button></div>'+
+      '</div></article>';
+  }).join("");
+  PRODUCTS.forEach(function(p, i){ setCard(i, p.fins[0]); });
+  rail.addEventListener("click", function(e){
+    var d = e.target.closest(".dots button");
+    if (d){ var i = +d.dataset.i; d.parentNode.querySelectorAll("button").forEach(function(x){ x.setAttribute("aria-pressed", String(x===d)); }); setCard(i, d.dataset.f); return; }
+    var a = e.target.closest("[data-add]");
+    if (a){ var p = PRODUCTS[+a.dataset.add]; if (mode === "dealer") addCart(p.carton, "1 carton of "+p.id+" added ("+p.carton+" pcs)"); else addCart(1, p.name+" added to cart"); }
+  });
+}
+function setCard(i, f){
+  var p = PRODUCTS[i], mult = FIN[f].mult;
+  var img = document.getElementById("img-"+i);
+  var u = snap(p.model, f); if (u) img.src = u;
+  document.getElementById("fn-"+i).textContent = FIN[f].short;
+  document.getElementById("pn-"+i).textContent = rs(p.price*mult);
+  var w = document.getElementById("pw-"+i); if (w) w.textContent = rs(p.was*mult);
+  document.getElementById("sl-"+i).innerHTML = ["1–4 ctn","5–19 ctn","20+ ctn"].map(function(l, k){ return '<div><span>'+l+'</span><b>'+Math.round(p.slabs[k]*mult).toLocaleString("en-PK")+'</b></div>'; }).join("");
+}
+
+/* ---------- spaces ---------- */
+function renderSpaces(){
+  document.querySelectorAll(".space img").forEach(function(im){ var u = snap(im.dataset.r, im.dataset.f); if (u) im.src = u; });
+}
+
+/* ---------- set builder ---------- */
+var setF = "chrome";
+function renderSet(){
+  document.getElementById("fpick").innerHTML = Object.keys(FIN).map(function(f){ return '<button type="button" data-f="'+f+'" aria-pressed="'+(f===setF)+'"><span class="sw '+f+'"></span>'+FIN[f].short+'</button>'; }).join("");
+  document.getElementById("items").innerHTML = SET.map(function(s, i){
+    return '<label class="item" for="it-'+i+'"><input type="checkbox" id="it-'+i+'" data-i="'+i+'"'+(s.on?' checked':'')+'><span>'+s.name+'<small class="mono">'+s.sku+'</small></span><span class="mono" id="ip-'+i+'"></span></label>';
+  }).join("");
+  document.getElementById("bview").innerHTML = SET.map(function(s, i){ return '<figure id="bf-'+i+'"><img alt="'+s.name+'"><figcaption>'+s.sku+'</figcaption></figure>'; }).join("");
+  paintSet(); renderSetTotals();
+}
+function paintSet(){
+  SET.forEach(function(s, i){ var im = document.querySelector("#bf-"+i+" img"); var u = snap(s.model, setF); if (u) im.src = u; });
+}
+function renderSetTotals(){
+  if (!document.getElementById("ip-0")) return;
+  var mult = FIN[setF].mult, sum = 0, n = 0;
+  var dm = mode === "dealer" ? 0.78 : 1;
+  SET.forEach(function(s, i){
+    var p = s.price*mult*dm;
+    document.getElementById("ip-"+i).textContent = rs(p);
+    document.getElementById("bf-"+i).classList.toggle("off", !s.on);
+    if (s.on){ sum += p; n++; }
+  });
+  var full = n === SET.length, save = full ? sum*0.1 : 0;
+  document.getElementById("t-count").textContent = n + (n===1?" piece":" pieces") + " · " + FIN[setF].short + (mode==="dealer"?" · dealer price":"");
+  document.getElementById("t-sum").textContent = rs(sum - save);
+  document.getElementById("t-save").textContent = full ? "Full set: you save " + rs(save) : "Add all 4 pieces to save 10%";
+  document.getElementById("add-set").disabled = n === 0;
+}
+document.getElementById("fpick").addEventListener("click", function(e){
+  var b = e.target.closest("button"); if (!b) return;
+  setF = b.dataset.f;
+  this.querySelectorAll("button").forEach(function(x){ x.setAttribute("aria-pressed", String(x===b)); });
+  paintSet(); renderSetTotals();
+});
+document.getElementById("items").addEventListener("change", function(e){
+  var i = +e.target.dataset.i; SET[i].on = e.target.checked; renderSetTotals();
+});
+document.getElementById("add-set").addEventListener("click", function(){
+  var n = SET.filter(function(s){ return s.on; }).length;
+  addCart(n, FIN[setF].short + " set added: " + n + " pieces");
+});
+
+/* ---------- dealers ---------- */
+var city = "Lahore";
+function renderCities(){
+  document.getElementById("cities").innerHTML = Object.keys(CITIES).map(function(c){ return '<button type="button" data-c="'+c+'" aria-pressed="'+(c===city)+'">'+c+'</button>'; }).join("") + '<button type="button" data-c="" aria-pressed="false">More cities</button>';
+  document.getElementById("dlist").innerHTML = (CITIES[city]||[]).map(function(d){
+    return '<div class="dealer"><b>'+d[0]+'</b><span>'+d[1]+', '+city+'</span><span class="mono">0300 000 0000</span><a href="#find">Directions</a></div>';
+  }).join("");
+}
+document.getElementById("cities").addEventListener("click", function(e){
+  var b = e.target.closest("button"); if (!b || !b.dataset.c) return;
+  city = b.dataset.c; renderCities();
+});
+
+/* ---------- boot ---------- */
+if (gl){ try { initGL(); } catch(err){ gl = false; document.body.classList.add("nogl"); } }
+renderRail(); renderSpaces(); renderSet(); renderCities();
+setMode(mode);
+})();
+</script>

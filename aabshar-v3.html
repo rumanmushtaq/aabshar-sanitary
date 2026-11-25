@@ -1,0 +1,702 @@
+<title>Aabshar Sanitary</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Nastaliq+Urdu:wght@500&display=swap">
+<style>
+/* Layout: full-bleed photographic hero, then an editorial grid of photo mosaics on warm stone; 1280px max column */
+:root{
+  --ink:#0d1117;        /* night showroom */
+  --ink-2:#161c25;
+  --brass:#c39350;      /* fitting brass: the one accent */
+  --brass-text:#8a5d1e;
+  --stone:#f3f1ec;      /* honed limestone ground */
+  --stone-2:#e9e5dd;
+  --white:#ffffff;
+  --line:#dcd7cd;
+  --muted:#5f5a52;
+  --on-ink:#ece8e1;
+  --on-ink-2:#a9a39a;
+  --ok:#2e7a4f;
+  --f-display:"Fraunces", "Iowan Old Style", Georgia, serif;
+  --f-body:"Manrope", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
+  --f-urdu:"Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{background:var(--stone);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--ink)}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer;background:transparent}
+img{display:block;max-width:100%}
+:focus-visible{outline:3px solid var(--brass);outline-offset:3px;border-radius:6px}
+.gut{padding-left:max(20px, env(safe-area-inset-left, 0px));padding-right:max(20px, env(safe-area-inset-right, 0px))}
+.col{max-width:1280px;margin-inline:auto}
+.eyebrow{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase}
+.display{font-family:var(--f-display);font-weight:300;letter-spacing:-.025em;line-height:1.02;font-variation-settings:"opsz" 144;text-wrap:balance;margin:0}
+.display em{font-style:italic}
+.h2{font-size:clamp(2.2rem,4.6vw,3.9rem)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:999px;padding:15px 26px;font-weight:600;font-size:.96rem;text-decoration:none;border:1.5px solid transparent;min-height:50px;transition:background .2s,border-color .2s,color .2s}
+.btn svg{width:18px;height:18px}
+.btn.brass{background:var(--brass);color:var(--ink)}
+.btn.brass:hover{background:#d3a463}
+.btn.glass{border-color:rgba(255,255,255,.4);color:#fff;background:rgba(255,255,255,.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.btn.glass:hover{border-color:#fff}
+.btn.dark{background:var(--ink);color:#fff}
+.btn.dark:hover{background:#262d38}
+.btn.line{border-color:var(--ink);color:var(--ink)}
+.btn.line:hover{background:var(--ink);color:#fff}
+.link{font-weight:600;text-decoration:none;border-bottom:1.5px solid currentColor;padding-bottom:2px;white-space:nowrap}
+
+/* top strip + nav */
+.strip{background:var(--ink);color:var(--on-ink-2);font-size:.8rem}
+.strip .col{display:flex;justify-content:space-between;gap:16px;padding-block:8px;align-items:center}
+.strip .r{display:flex;gap:20px;align-items:center}
+.strip a{text-decoration:none}
+.urdu{font-family:var(--f-urdu);line-height:1.8}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(13,17,23,.86);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--on-ink);border-bottom:1px solid rgba(255,255,255,.08)}
+.nav .col{display:flex;align-items:center;gap:32px;height:72px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo b{font-family:var(--f-display);font-weight:400;font-size:1.6rem;letter-spacing:-.02em}
+.logo svg{width:28px;height:28px}
+.links{display:flex;gap:28px;font-size:.9rem;font-weight:500}
+.links a{text-decoration:none;color:var(--on-ink-2);transition:color .2s}
+.links a:hover{color:#fff}
+.nav .right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.mode{display:inline-flex;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:99px;padding:3px}
+.mode button{border:0;color:var(--on-ink-2);font-size:.82rem;font-weight:600;padding:8px 15px;border-radius:99px;min-height:36px}
+.mode button[aria-pressed="true"]{background:var(--brass);color:var(--ink)}
+.iconbtn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.16);color:#fff;position:relative;text-decoration:none}
+.iconbtn svg{width:19px;height:19px}
+.badge{position:absolute;top:-4px;right:-4px;min-width:19px;height:19px;border-radius:99px;background:var(--brass);color:var(--ink);font-size:.7rem;font-weight:700;display:grid;place-items:center;padding:0 5px}
+
+/* hero */
+.hero{position:relative;color:#fff;background:var(--ink);overflow:hidden;isolation:isolate}
+.hero > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 45%;z-index:-2;transform:scale(1.04);animation:settle 2.4s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes settle{to{transform:scale(1)}}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(13,17,23,.92) 0%,rgba(13,17,23,.72) 38%,rgba(13,17,23,.15) 70%,rgba(13,17,23,.05) 100%),linear-gradient(0deg,rgba(13,17,23,.75) 0%,rgba(13,17,23,0) 32%)}
+.hero .col{min-height:720px;display:grid;grid-template-rows:1fr auto;padding-block:96px 36px}
+.hero .copy{max-width:640px;align-self:center}
+.hero h1{font-size:clamp(3.1rem,7.4vw,6.8rem);margin-top:20px}
+.hero h1 em{color:var(--brass)}
+.hero .lede{color:#d8d3cb;font-size:1.14rem;max-width:44ch;margin:24px 0 0}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
+.hero .foot{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap}
+.facts{display:flex;gap:40px;flex-wrap:wrap}
+.facts div{display:grid;gap:2px}
+.facts b{font-family:var(--f-display);font-weight:300;font-size:2rem;line-height:1}
+.facts span{font-size:.82rem;color:#c9c3ba}
+.pick{display:flex;gap:14px;align-items:center;background:rgba(13,17,23,.55);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:18px;padding:10px 18px 10px 10px;text-decoration:none;max-width:360px}
+.pick img{width:64px;height:64px;border-radius:12px;object-fit:cover}
+.pick .mono{font-size:.72rem;color:#c9c3ba}
+.pick b{display:block;font-weight:600;font-size:.95rem}
+.pick .p{font-family:var(--f-mono);color:var(--brass)}
+
+/* usp band */
+.usp{background:var(--white);border-bottom:1px solid var(--line)}
+.usp .col{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.usp div{display:flex;gap:14px;align-items:center;padding:22px 18px}
+.usp div + div{border-left:1px solid var(--line)}
+.usp svg{width:28px;height:28px;flex:none;color:var(--brass-text)}
+.usp b{display:block;font-size:.95rem}
+.usp span{font-size:.82rem;color:var(--muted)}
+
+section.band{padding-block:clamp(72px,9vw,128px)}
+.head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:44px}
+.head .eyebrow{color:var(--brass-text)}
+.head p{color:var(--muted);max-width:46ch;margin:16px 0 0}
+
+/* category mosaic */
+.mosaic{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:250px;gap:14px}
+.tile{position:relative;border-radius:20px;overflow:hidden;text-decoration:none;color:#fff;isolation:isolate;display:flex;flex-direction:column;justify-content:flex-end;padding:22px}
+.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform 1s cubic-bezier(.2,.7,.2,1)}
+.tile::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(13,17,23,.78) 0%,rgba(13,17,23,.15) 45%,rgba(13,17,23,0) 70%)}
+.tile:hover img{transform:scale(1.06)}
+.tile .n{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;color:#e3ddd3}
+.tile h3{font-family:var(--f-display);font-weight:300;font-size:1.85rem;margin:4px 0 0;letter-spacing:-.02em;line-height:1.05}
+.tile .go{position:absolute;right:18px;top:18px;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.9);color:var(--ink);display:grid;place-items:center;transition:transform .3s}
+.tile:hover .go{transform:rotate(-45deg)}
+.tile .go svg{width:16px;height:16px}
+.t-a{grid-column:span 2;grid-row:span 2}
+.t-a h3{font-size:2.6rem}
+.t-b{grid-row:span 2}
+.t-e{grid-column:span 2}
+
+/* products */
+.rail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.card{display:flex;flex-direction:column;gap:14px}
+.card .pic{position:relative;aspect-ratio:4/5;max-width:100%;border-radius:20px;overflow:hidden;background:var(--stone-2)}
+.card .pic img{width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.card:hover .pic img{transform:scale(1.05)}
+.flag{position:absolute;left:14px;top:14px;font-size:.7rem;font-weight:700;letter-spacing:.04em;padding:6px 11px;border-radius:99px;background:rgba(255,255,255,.92);color:var(--ink)}
+.flag.sale{background:#9c3f18;color:#fff}
+.quick{position:absolute;left:12px;right:12px;bottom:12px;border:0;border-radius:14px;background:rgba(13,17,23,.88);color:#fff;font-weight:600;padding:14px;min-height:48px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transform:translateY(8px);opacity:0;transition:opacity .3s,transform .3s}
+.card:hover .quick,.quick:focus-visible{opacity:1;transform:none}
+@media (hover:none){.quick{opacity:1;transform:none}}
+.card .meta{display:grid;gap:6px;padding-inline:4px}
+.card .sku{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.card h3{margin:0;font-size:1.04rem;font-weight:600;line-height:1.3}
+.fins{display:flex;gap:6px;align-items:center;font-size:.78rem;color:var(--muted)}
+.sw{width:14px;height:14px;border-radius:50%;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
+.sw.chrome{background:conic-gradient(from 200deg,#f5f7fa,#9aa3ad,#f5f7fa,#c3c9d0,#f5f7fa)}
+.sw.black{background:conic-gradient(from 200deg,#2b2d31,#141518,#3a3c41,#141518,#2b2d31)}
+.sw.gold{background:conic-gradient(from 200deg,#f0cf87,#b0832f,#f3d793,#c39a46,#f0cf87)}
+.sw.gunmetal{background:conic-gradient(from 200deg,#8d929b,#4a4e56,#9ba0a8,#5a5e66,#8d929b)}
+.price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.price .now{font-family:var(--f-mono);font-size:1.18rem;font-weight:500}
+.price .was{font-family:var(--f-mono);font-size:.84rem;color:var(--muted);text-decoration:line-through}
+.slab{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid #cfdcdf;border-radius:12px;overflow:hidden;background:#eef4f5}
+.slab div{padding:7px 6px;text-align:center;display:grid}
+.slab div+div{border-left:1px solid #cfdcdf}
+.slab span{font-size:.66rem;color:#36606a;font-weight:600}
+.slab b{font-family:var(--f-mono);font-weight:500;font-size:.88rem}
+.note{font-size:.78rem;color:var(--muted)}
+[data-show]{display:none}
+body.retail [data-show="retail"],body.dealer [data-show="dealer"]{display:revert}
+body.retail .price[data-show="retail"],body.dealer .price[data-show="dealer"]{display:flex}
+body.dealer .slab[data-show="dealer"]{display:grid}
+
+/* story split */
+.story{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(28px,5vw,80px);align-items:center}
+.story .ph{position:relative;border-radius:28px;overflow:hidden;aspect-ratio:4/5;max-width:100%}
+.story .ph img{width:100%;height:100%;object-fit:cover}
+.story .inset{position:absolute;right:-1px;bottom:-1px;width:42%;aspect-ratio:1;border-radius:24px 0 0 0;overflow:hidden;border:8px solid var(--stone);border-right:0;border-bottom:0}
+.story .inset img{width:100%;height:100%;object-fit:cover}
+.feats{display:grid;gap:0;margin-top:32px;border-top:1px solid var(--line)}
+.feat{display:grid;grid-template-columns:120px minmax(0,1fr);gap:18px;padding-block:20px;border-bottom:1px solid var(--line)}
+.feat .mono{font-size:.8rem;color:var(--brass-text);padding-top:3px}
+.feat b{display:block;font-size:1.04rem;margin-bottom:4px}
+.feat p{margin:0;color:var(--muted);font-size:.95rem}
+
+/* two ways */
+.ways{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.way{position:relative;border-radius:28px;overflow:hidden;color:#fff;isolation:isolate;min-height:560px;display:flex;flex-direction:column;justify-content:flex-end;gap:16px;padding:clamp(26px,4vw,48px)}
+.way > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.way::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(13,17,23,.95) 0%,rgba(13,17,23,.82) 50%,rgba(13,17,23,.35) 100%)}
+.way .eyebrow{color:var(--brass)}
+.way h3{font-family:var(--f-display);font-weight:300;font-size:clamp(2rem,3.4vw,3rem);letter-spacing:-.02em;line-height:1.04;margin:0}
+.way p{margin:0;color:#d8d3cb;max-width:42ch}
+.ticks{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:.95rem;color:#e9e4dc}
+.ticks li{display:flex;gap:10px}
+.ticks svg{width:18px;height:18px;color:var(--brass);flex:none;margin-top:4px}
+.locked{border:1px solid rgba(255,255,255,.18);border-radius:16px;overflow:hidden;font-family:var(--f-mono);background:rgba(13,17,23,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.locked .r{display:grid;grid-template-columns:1.2fr repeat(3,1fr);padding:11px 16px;font-size:.88rem}
+.locked .r.h{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--on-ink-2)}
+.locked .r + .r{border-top:1px solid rgba(255,255,255,.08)}
+.locked .v{transition:filter .4s}
+body.retail .locked .v{filter:blur(6px)}
+.locked .lock{border-top:1px solid rgba(255,255,255,.08);padding:9px 16px;font-family:var(--f-body);font-size:.76rem;color:var(--brass);display:flex;gap:6px;align-items:center}
+body.dealer .locked .lock{display:none}
+
+/* set builder */
+.builder{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:20px}
+.bview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.bview figure{margin:0;position:relative;border-radius:18px;overflow:hidden;aspect-ratio:1;max-width:100%;transition:opacity .35s,filter .35s}
+.bview figure img{width:100%;height:100%;object-fit:cover}
+.bview figure.off{opacity:.28;filter:grayscale(1)}
+.bview figcaption{position:absolute;left:10px;bottom:10px;background:rgba(255,255,255,.92);border-radius:99px;padding:4px 10px;font-family:var(--f-mono);font-size:.7rem}
+.bpanel{background:var(--white);border-radius:24px;border:1px solid var(--line);padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:22px}
+.bpanel h3{margin:0;font-size:1rem}
+.fpick{display:flex;flex-wrap:wrap;gap:8px}
+.fpick button{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:99px;padding:7px 14px 7px 8px;font-weight:600;font-size:.86rem;min-height:44px;background:#fff}
+.fpick button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:#fff}
+.fpick .sw{width:20px;height:20px}
+.item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px 2px;border-bottom:1px solid #ece8e1;cursor:pointer}
+.item input{width:20px;height:20px;accent-color:var(--ink);margin:0}
+.item small{display:block;color:var(--muted);font-size:.78rem}
+.total{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-top:auto}
+.total .big{font-size:2.1rem;font-weight:500;line-height:1.1}
+.total small{color:var(--ok);font-weight:600;font-size:.86rem}
+
+/* factory */
+.factory{background:var(--ink);color:var(--on-ink)}
+.factory .head .eyebrow{color:var(--brass)}
+.factory .head p{color:var(--on-ink-2)}
+.fgal{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:14px;margin-bottom:48px}
+.fgal figure{margin:0;border-radius:20px;overflow:hidden;height:340px;position:relative}
+.fgal img{width:100%;height:100%;object-fit:cover;filter:saturate(.85)}
+.fgal figcaption{position:absolute;left:14px;bottom:12px;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.1em;color:#fff;background:rgba(13,17,23,.6);padding:5px 10px;border-radius:99px}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid rgba(255,255,255,.12)}
+.step{padding:26px 24px 0 0;display:grid;gap:10px;align-content:start}
+.step + .step{padding-left:24px;border-left:1px solid rgba(255,255,255,.12)}
+.step .n{font-family:var(--f-display);font-weight:300;font-size:3.6rem;line-height:1;color:var(--brass)}
+.step h3{margin:0;font-size:1.08rem;color:#fff}
+.step p{margin:0;color:var(--on-ink-2);font-size:.93rem}
+
+/* ideas */
+.ideas{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:14px;align-items:end}
+.ideas figure{margin:0;border-radius:20px;overflow:hidden;position:relative}
+.ideas img{width:100%;height:100%;object-fit:cover}
+.ideas figure:nth-child(1){height:380px}
+.ideas figure:nth-child(2){height:480px}
+.ideas figure:nth-child(3){height:380px}
+.ideas figcaption{position:absolute;left:0;right:0;bottom:0;padding:40px 18px 16px;background:linear-gradient(0deg,rgba(13,17,23,.75),rgba(13,17,23,0));color:#fff;font-size:.9rem}
+.ideas figcaption b{display:block;font-family:var(--f-display);font-weight:400;font-size:1.3rem}
+
+/* dealers */
+.find{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:36px;align-items:start}
+.cities{display:flex;flex-wrap:wrap;gap:8px}
+.cities button{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:10px 18px;font-weight:600;min-height:44px}
+.cities button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.dlist{display:grid;gap:12px}
+.dealer{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px 20px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;align-items:center}
+.dealer span{color:var(--muted);font-size:.9rem}
+.dealer a{grid-row:1/4;grid-column:2;text-decoration:none;font-weight:600;font-size:.88rem;border:1.5px solid var(--ink);border-radius:99px;padding:9px 16px}
+
+/* footer */
+footer{background:var(--ink);color:var(--on-ink-2);overflow:hidden}
+.fgrid{display:grid;grid-template-columns:1.5fr repeat(3,minmax(0,1fr));gap:32px;padding-block:72px 32px}
+.fgrid h4{color:#fff;margin:0 0 14px;font-size:.95rem}
+.fgrid a{display:block;text-decoration:none;padding-block:4px;font-size:.93rem}
+.fgrid a:hover{color:#fff}
+.news{display:flex;gap:8px;margin-top:6px;max-width:360px}
+.news input{flex:1;min-width:0;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.04);color:#fff;border-radius:99px;padding:12px 16px;font:inherit;font-size:.9rem}
+.word{font-family:var(--f-display);font-weight:300;font-size:clamp(5rem,24vw,26rem);line-height:.8;letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1px rgba(195,147,80,.5);white-space:nowrap;margin:0;padding-bottom:14px;user-select:none}
+.legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.08);padding-block:20px;font-size:.8rem}
+
+.toast{visibility:hidden;position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,calc(100% + 60px));background:var(--ink);color:#fff;border:1px solid rgba(255,255,255,.14);border-radius:99px;padding:12px 20px;font-weight:600;font-size:.92rem;z-index:70;transition:transform .35s cubic-bezier(.2,.7,.2,1);display:flex;gap:10px;align-items:center}
+.toast.on{transform:translate(-50%,0);visibility:visible}
+.toast i{width:8px;height:8px;border-radius:50%;background:var(--brass)}
+
+@media (max-width:1080px){
+  .links{display:none}
+  .rail{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mosaic{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:220px}
+  .t-a{grid-column:span 2;grid-row:span 2}.t-b{grid-row:span 2}.t-e{grid-column:span 2}
+  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .step:nth-child(3){padding-left:0;border-left:0}
+  .fgrid{grid-template-columns:1fr 1fr}
+  .usp .col{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .usp div:nth-child(3){border-left:0}
+  .usp div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+}
+@media (max-width:860px){
+  .story,.ways,.builder,.find{grid-template-columns:1fr}
+  .fgal{grid-template-columns:1fr 1fr}.fgal figure:first-child{grid-column:span 2}
+  .fgal figure{height:240px}
+  .ideas{grid-template-columns:1fr 1fr}.ideas figure:nth-child(2){grid-column:span 2;grid-row:1}
+  .ideas figure:nth-child(n){height:300px}
+  .hero .col{min-height:640px;padding-block:72px 28px}
+  .hero::before{background:linear-gradient(0deg,rgba(13,17,23,.95) 0%,rgba(13,17,23,.6) 55%,rgba(13,17,23,.35) 100%)}
+}
+@media (max-width:560px){
+  .strip .l,.strip .r a:not(.urdu){display:none}
+  .strip .col{justify-content:flex-end}
+  .facts{gap:28px}
+  .nav .col{gap:10px}
+  .iconbtn.search{display:none}
+  .logo b{font-size:1.35rem}
+  .mode button{padding:8px 11px}
+  .rail{gap:12px}
+  .card h3{font-size:.92rem}
+  .price .now{font-size:1rem}
+  .slab span{font-size:.58rem}.slab b{font-size:.72rem}
+  .mosaic{grid-template-columns:1fr;grid-auto-rows:200px}
+  .t-a,.t-b,.t-e{grid-column:auto;grid-row:auto}
+  .t-a{grid-row:span 2}
+  .steps{grid-template-columns:1fr}
+  .step,.step + .step{padding-left:0;border-left:0;border-top:1px solid rgba(255,255,255,.12);padding-bottom:20px}
+  .feat{grid-template-columns:1fr;gap:4px}
+  .usp div{padding:16px 10px;gap:10px}
+  .fgrid{grid-template-columns:1fr}
+  .way{min-height:520px}
+  .pick{display:none}
+}
+</style>
+
+<div class="strip gut">
+  <div class="col">
+    <span class="l">Free delivery in Lahore over Rs 15,000 · Cash on Delivery nationwide</span>
+    <div class="r">
+      <a href="#find">Find a shop</a>
+      <a href="#top">Track order</a>
+      <span class="mono">WhatsApp 0300 000 0000</span>
+      <a class="urdu" href="#top" lang="ur">اردو</a>
+    </div>
+  </div>
+</div>
+
+<nav class="nav gut" aria-label="Main">
+  <div class="col">
+    <a class="logo" href="#top" aria-label="Aabshar home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2.5c5.6 7.6 10 12.4 10 18.2a10 10 0 0 1-20 0C6 14.9 10.4 10.1 16 2.5Z" fill="none" stroke="#c39350" stroke-width="1.6"/><path d="M11.5 21.5a4.6 4.6 0 0 0 4.5 4.6" stroke="#c39350" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
+      <b>Aabshar</b>
+    </a>
+    <div class="links">
+      <a href="#shop">Shop</a>
+      <a href="#sets">Bathroom sets</a>
+      <a href="#ways">For dealers</a>
+      <a href="#factory">Our factory</a>
+      <a href="#ideas">Ideas</a>
+    </div>
+    <div class="right">
+      <div class="mode" role="group" aria-label="Show prices for">
+        <button type="button" id="m-retail" aria-pressed="true">Home</button>
+        <button type="button" id="m-dealer" aria-pressed="false">Dealer</button>
+      </div>
+      <a class="iconbtn search" href="#best" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
+      <a class="iconbtn" href="#best" aria-label="Cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg><span class="badge" id="cart">0</span></a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero gut" id="top">
+  <img src="img/hero.jpg" alt="" fetchpriority="high">
+  <div class="col">
+    <div class="copy">
+      <span class="eyebrow" style="color:var(--brass)">Taps · Showers · Fittings · Made in Pakistan</span>
+      <h1 class="display">Water, shaped in <em>solid brass.</em></h1>
+      <p class="lede">Bathroom fittings from our own factory. Buy one for your home, or buy by the carton for your shop.</p>
+      <div class="ctas">
+        <a class="btn brass" href="#shop">Explore the collection <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn glass" href="#ways" id="hero-cta2">Become a dealer</a>
+      </div>
+    </div>
+    <div class="foot">
+      <div class="facts">
+        <div><b>10 yr</b><span>leak warranty</span></div>
+        <div><b>4</b><span>finishes per design</span></div>
+        <div><b>[No.]</b><span>dealers in Pakistan</span></div>
+      </div>
+      <a class="pick" href="#best">
+        <img src="img/tap-brass.jpg" alt="">
+        <span><span class="mono">AB-1204 · Featured</span><b>Classic basin mixer, brass</b><span class="p" id="pick-price">Rs 8,500</span></span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="usp gut">
+  <div class="col">
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20M6 15h4"/></svg><span><b>Cash on Delivery</b><span>Pay when it arrives</span></span></div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg><span><b>10-year warranty</b><span>Registered online</span></span></div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg><span><b>2–5 day delivery</b><span>Cost shown by city</span></span></div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19.2L4 20Z"/><path d="M9 10c.4 2 2 3.6 4 4"/></svg><span><b>Order on WhatsApp</b><span>Send a photo or SKU</span></span></div>
+  </div>
+</div>
+
+<main>
+<section class="band gut" id="shop">
+  <div class="col">
+    <div class="head">
+      <div>
+        <span class="eyebrow">The collection</span>
+        <h2 class="display h2" style="margin-top:14px">Everything behind<br>the bathroom door</h2>
+      </div>
+      <a class="link" href="#best">View all products</a>
+    </div>
+    <div class="mosaic">
+      <a class="tile t-a" href="#best"><img src="img/vanity-brass.jpg" alt="" loading="lazy"><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="n">01 · 48 DESIGNS</span><h3>Taps &amp; Mixers</h3></a>
+      <a class="tile t-b" href="#best"><img src="img/rain-walnut.jpg" alt="" loading="lazy"><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="n">02 · 22 DESIGNS</span><h3>Showers</h3></a>
+      <a class="tile" href="#best"><img src="img/hand-gold.jpg" alt="" loading="lazy" style="object-position:70% 50%"><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="n">03</span><h3>Muslim Showers</h3></a>
+      <a class="tile" href="#best"><img src="img/wc.jpg" alt="" loading="lazy"><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="n">04</span><h3>Commodes</h3></a>
+      <a class="tile" href="#best"><img src="img/basin.jpg" alt="" loading="lazy"><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="n">05</span><h3>Basins</h3></a>
+      <a class="tile" href="#best"><img src="img/kitchen.jpg" alt="" loading="lazy"><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="n">06</span><h3>Kitchen</h3></a>
+      <a class="tile t-e" href="#best"><img src="img/valves.jpg" alt="" loading="lazy"><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="n">07 · FOR PLUMBERS</span><h3>Valves &amp; Fittings</h3></a>
+    </div>
+  </div>
+</section>
+
+<section class="band gut" id="best" style="padding-top:0">
+  <div class="col">
+    <div class="head">
+      <div>
+        <span class="eyebrow" data-show="retail">Best sellers</span>
+        <span class="eyebrow" data-show="dealer">Dealer price list · Tier B</span>
+        <h2 class="display h2" style="margin-top:14px" data-show="retail">Most ordered this month</h2>
+        <h2 class="display h2" style="margin-top:14px" data-show="dealer">Your carton prices</h2>
+        <p data-show="retail">Prices include delivery in Lahore. Other cities at checkout.</p>
+        <p data-show="dealer">Price per piece falls as cartons go up. Order on credit or by bank transfer.</p>
+      </div>
+      <a class="link" href="#shop">See all 120 products</a>
+    </div>
+    <div class="rail" id="rail"></div>
+  </div>
+</section>
+
+<section class="band gut" style="background:var(--white)">
+  <div class="col story">
+    <div class="ph">
+      <img src="img/spa.jpg" alt="Bright bathroom with a freestanding bath and wall-mounted taps" loading="lazy">
+      <div class="inset"><img src="img/tap-brass.jpg" alt="Close-up of a brass cross-handle tap" loading="lazy"></div>
+    </div>
+    <div>
+      <span class="eyebrow" style="color:var(--brass-text)">Built for Pakistani water</span>
+      <h2 class="display h2" style="margin-top:14px">Made for roof tanks, hard water and summer heat</h2>
+      <div class="feats">
+        <div class="feat"><span class="mono">0.5 bar</span><div><b>Works on low pressure</b><p>Cartridges open fully on the pressure most roof tanks give.</p></div></div>
+        <div class="feat"><span class="mono">8 layers</span><div><b>Plating that keeps its shine</b><p>Nickel under chrome or colour, so hard water and salt do not eat the finish.</p></div></div>
+        <div class="feat"><span class="mono">½″ BSP</span><div><b>Fits every standard pipe</b><p>No adapters. Your plumber fits it with the tools he already has.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band gut" id="ways">
+  <div class="col">
+    <div class="head">
+      <div>
+        <span class="eyebrow">Two ways to buy</span>
+        <h2 class="display h2" style="margin-top:14px">For homes. For shops.</h2>
+      </div>
+    </div>
+    <div class="ways">
+      <div class="way">
+        <img src="img/bath.jpg" alt="" loading="lazy">
+        <span class="eyebrow">For your home</span>
+        <h3>One tap or a full bathroom, at factory price</h3>
+        <ul class="ticks">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Cash on Delivery, JazzCash, Easypaisa or bank</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Free plumber video for every product</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>7-day returns, unused and in the box</li>
+        </ul>
+        <div class="ctas" style="margin-top:8px"><a class="btn brass" href="#sets">Build a bathroom set</a></div>
+      </div>
+      <div class="way">
+        <img src="img/fittings.jpg" alt="" loading="lazy">
+        <span class="eyebrow">For sanitary shop owners</span>
+        <h3>Buy by the carton. Pay on credit.</h3>
+        <p>Approved dealers get slab prices, one-click reorders and a live khata with us.</p>
+        <div class="locked">
+          <div class="r h"><span>AB-1204</span><span>1–4 ctn</span><span>5–19 ctn</span><span>20+ ctn</span></div>
+          <div class="r"><span style="color:var(--on-ink-2)">Per piece</span><span class="v">6,900</span><span class="v">6,600</span><span class="v">6,400</span></div>
+          <span class="lock"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Prices unlock after approval</span>
+        </div>
+        <div class="ctas" style="margin-top:8px">
+          <a class="btn brass" href="#ways" data-show="retail">Apply as a dealer</a>
+          <button class="btn glass" type="button" data-show="retail" id="try-dealer">Preview dealer prices</button>
+          <a class="btn brass" href="#best" data-show="dealer">Open dealer price list</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band gut" id="sets" style="padding-top:0">
+  <div class="col">
+    <div class="head">
+      <div>
+        <span class="eyebrow">Bathroom set builder</span>
+        <h2 class="display h2" style="margin-top:14px">One finish, every fitting</h2>
+        <p>Choose a finish and the pieces you need. Buy all four and save 10%.</p>
+      </div>
+    </div>
+    <div class="builder">
+      <div class="bview" id="bview" aria-label="Pieces in your set"></div>
+      <div class="bpanel">
+        <div style="display:grid;gap:12px"><h3>1 · Finish</h3><div class="fpick" role="group" aria-label="Set finish" id="fpick"></div></div>
+        <div style="display:grid;gap:4px"><h3>2 · Pieces</h3><div id="items"></div></div>
+        <div class="total">
+          <div style="display:grid;gap:6px">
+            <span style="color:var(--muted);font-size:.88rem" id="t-count"></span>
+            <span class="mono big" id="t-sum"></span>
+            <small id="t-save"></small>
+          </div>
+          <button class="btn dark" type="button" id="add-set">Add set to cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band gut factory" id="factory">
+  <div class="col">
+    <div class="head">
+      <div>
+        <span class="eyebrow">Our factory</span>
+        <h2 class="display h2" style="margin-top:14px;color:#fff">Four steps before a tap leaves us</h2>
+      </div>
+      <p>Every design is cast, machined, plated and tested under one roof in [city].</p>
+    </div>
+    <div class="fgal">
+      <figure><img src="img/lathe.jpg" alt="Lathe machines on the factory floor" loading="lazy"><figcaption>MACHINING</figcaption></figure>
+      <figure><img src="img/sparks.jpg" alt="Sparks from metal work" loading="lazy"><figcaption>FINISHING</figcaption></figure>
+      <figure><img src="img/shavings.jpg" alt="Brass shavings beside a machine" loading="lazy"><figcaption>BRASS</figcaption></figure>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="n">01</span><h3>Brass casting</h3><p>Lead-free brass bodies, never zinc alloy, so they do not crack.</p></div>
+      <div class="step"><span class="n">02</span><h3>CNC machining</h3><p>Threads cut to ½″ BSP for standard Pakistani plumbing.</p></div>
+      <div class="step"><span class="n">03</span><h3>Layered plating</h3><p>Nickel, then chrome or PVD colour, polished by hand.</p></div>
+      <div class="step"><span class="n">04</span><h3>Pressure test</h3><p>Each piece tested at [test bar], boxed with a warranty card.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band gut" id="ideas">
+  <div class="col">
+    <div class="head">
+      <div>
+        <span class="eyebrow">Ideas</span>
+        <h2 class="display h2" style="margin-top:14px">Bathrooms to borrow from</h2>
+      </div>
+      <a class="link" href="#ideas">See the idea book</a>
+    </div>
+    <div class="ideas">
+      <figure><img src="img/basin.jpg" alt="Marble bathroom with two round basins and brass taps" loading="lazy"><figcaption><b>Marble &amp; brass</b>Twin basins, brushed gold</figcaption></figure>
+      <figure><img src="img/idea1.jpg" alt="Warm bathroom with wood cabinets and a freestanding bath" loading="lazy"><figcaption><b>Warm minimal</b>Wood, stone, chrome fittings</figcaption></figure>
+      <figure><img src="img/idea2.jpg" alt="Green vanity with brass taps" loading="lazy"><figcaption><b>Green &amp; gold</b>Painted vanity, brass mixers</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="band gut" id="find" style="padding-top:0">
+  <div class="col find">
+    <div>
+      <span class="eyebrow" style="color:var(--brass-text)">Find a shop</span>
+      <h2 class="display h2" style="margin-top:14px">Touch it before you buy it</h2>
+      <p style="color:var(--muted);margin:16px 0 26px;max-width:40ch">Our fittings are on display at authorised dealers. Pick your city.</p>
+      <div class="cities" role="group" aria-label="City" id="cities"></div>
+    </div>
+    <div class="dlist" id="dlist" aria-live="polite"></div>
+  </div>
+</section>
+</main>
+
+<footer class="gut">
+  <div class="col">
+    <div class="fgrid">
+      <div style="display:grid;gap:14px;align-content:start">
+        <b style="font-family:var(--f-display);font-weight:400;font-size:1.6rem;color:#fff">Aabshar</b>
+        <p style="margin:0;max-width:34ch">Sanitary fittings made in [city], Pakistan. Sold to homes and through [No.] dealers.</p>
+        <form class="news" onsubmit="event.preventDefault(); this.querySelector('input').value=''; window.__toast && window.__toast('Subscribed. New designs come to your inbox.');">
+          <label for="nl" class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email</label>
+          <input id="nl" type="email" placeholder="Email for new designs" required>
+          <button class="btn brass" type="submit" style="padding:10px 18px;min-height:44px">Join</button>
+        </form>
+      </div>
+      <div><h4>Shop</h4><a href="#shop">Taps &amp; mixers</a><a href="#shop">Showers</a><a href="#shop">Muslim showers</a><a href="#sets">Bathroom sets</a></div>
+      <div><h4>Dealers</h4><a href="#ways">Become a dealer</a><a href="#ways">Dealer login</a><a href="#ways">Price list</a><a href="#find">Find a shop</a></div>
+      <div><h4>Help</h4><a href="#top">Track order</a><a href="#top">Warranty registration</a><a href="#top">Returns</a><a href="#top">Installation videos</a></div>
+    </div>
+    <p class="word" aria-hidden="true">Aabshar</p>
+    <div class="legal"><span>© 2026 Aabshar Sanitary · Design concept. Photos from Unsplash (free licence), to be replaced by your own product shoot.</span><span>Cash on Delivery · JazzCash · Easypaisa · Bank</span></div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status"><i></i><span id="toast-t">Added</span></div>
+
+<script>
+(function(){
+"use strict";
+function rs(n){ return "Rs " + Math.round(n).toLocaleString("en-PK"); }
+var FIN = {
+  chrome:{label:"Chrome", mult:1},
+  black:{label:"Matt black", mult:1.1},
+  gold:{label:"Brushed gold", mult:1.4},
+  gunmetal:{label:"Gunmetal", mult:1.25}
+};
+var PRODUCTS = [
+  {id:"AB-1204", name:"Minimal basin mixer", img:"img/p-tap.jpg", pos:"62% 50%", price:8500, was:9900, carton:10, slabs:[6900,6600,6400], flag:"−14%", sale:true, fins:["gold","chrome","black","gunmetal"]},
+  {id:"AB-5102", name:"Square rain shower 10″", img:"img/p-shower.jpg", pos:"50% 30%", price:6200, was:7000, carton:8, slabs:[4900,4700,4500], flag:"New", fins:["chrome","black","gold"]},
+  {id:"AB-3310", name:"Muslim shower set, 1.2 m hose", img:"img/hand-black.jpg", pos:"50% 30%", price:1950, was:0, carton:20, slabs:[1500,1400,1320], flag:"Top seller", fins:["black","chrome"]},
+  {id:"AB-6120", name:"Multi-spray hand shower kit", img:"img/p-hand.jpg", pos:"50% 35%", price:4800, was:5400, carton:12, slabs:[3800,3650,3500], flag:"", fins:["gold","chrome"]}
+];
+var SET = [
+  {name:"Basin mixer", sku:"AB-1204", price:8500, img:"img/p-tap.jpg", on:true},
+  {name:"Rain shower 10″ + arm", sku:"AB-5102", price:6200, img:"img/rain.jpg", on:true},
+  {name:"Muslim shower set", sku:"AB-3310", price:1950, img:"img/hand-gold.jpg", on:true},
+  {name:"Angle valves ½″ (pair)", sku:"AB-7720", price:900, img:"img/valves.jpg", on:true}
+];
+var CITIES = {
+  Lahore:[["[Dealer shop name]","Shah Alam Market"],["[Dealer shop name]","Ferozepur Road"]],
+  Karachi:[["[Dealer shop name]","Plumbing Market, Saddar"],["[Dealer shop name]","Gulshan-e-Iqbal"]],
+  Islamabad:[["[Dealer shop name]","I-8 Markaz"]],
+  Faisalabad:[["[Dealer shop name]","Kotwali Road"]],
+  Gujranwala:[["[Dealer shop name]","GT Road"]],
+  Multan:[["[Dealer shop name]","Hussain Agahi"]],
+  Peshawar:[["[Dealer shop name]","University Road"]]
+};
+
+var mode = "retail";
+try { if (localStorage.getItem("aab-mode") === "dealer") mode = "dealer"; } catch(e){}
+var cart = 0, tt;
+function toast(t){ var el=document.getElementById("toast"); document.getElementById("toast-t").textContent=t; el.classList.add("on"); clearTimeout(tt); tt=setTimeout(function(){el.classList.remove("on");},2400); }
+window.__toast = toast;
+function addCart(n, label){ cart += n; document.getElementById("cart").textContent = cart; toast(label); }
+
+function setMode(m){
+  mode = m;
+  document.body.classList.toggle("dealer", m === "dealer");
+  document.body.classList.toggle("retail", m !== "dealer");
+  document.getElementById("m-retail").setAttribute("aria-pressed", String(m !== "dealer"));
+  document.getElementById("m-dealer").setAttribute("aria-pressed", String(m === "dealer"));
+  document.getElementById("hero-cta2").textContent = m === "dealer" ? "Open dealer portal" : "Become a dealer";
+  document.getElementById("pick-price").textContent = m === "dealer" ? "From Rs 6,400 / pc" : "Rs 8,500";
+  totals();
+  try { localStorage.setItem("aab-mode", m); } catch(e){}
+}
+document.getElementById("m-retail").addEventListener("click", function(){ setMode("retail"); });
+document.getElementById("m-dealer").addEventListener("click", function(){ setMode("dealer"); toast("Showing dealer prices (demo)"); });
+document.getElementById("try-dealer").addEventListener("click", function(){ setMode("dealer"); toast("Showing dealer prices (demo)"); document.getElementById("best").scrollIntoView({behavior:"smooth"}); });
+
+/* products */
+var rail = document.getElementById("rail");
+rail.innerHTML = PRODUCTS.map(function(p, i){
+  var fins = p.fins.map(function(f){ return '<span class="sw '+f+'" title="'+FIN[f].label+'"></span>'; }).join("");
+  var slabs = ["1–4 ctn","5–19 ctn","20+ ctn"].map(function(l,k){ return '<div><span>'+l+'</span><b>'+p.slabs[k].toLocaleString("en-PK")+'</b></div>'; }).join("");
+  return '<article class="card">'+
+    '<div class="pic"><img src="'+p.img+'" alt="'+p.name+'" loading="lazy" style="object-position:'+p.pos+'">'+(p.flag?'<span class="flag'+(p.sale?' sale':'')+'">'+p.flag+'</span>':'')+
+    '<button class="quick" type="button" data-add="'+i+'"><span data-show="retail">Add to cart</span><span data-show="dealer">Add 1 carton · '+p.carton+' pcs</span></button></div>'+
+    '<div class="meta"><span class="sku">'+p.id+'</span><h3>'+p.name+'</h3>'+
+    '<div class="fins">'+fins+'<span>'+p.fins.length+' finishes</span></div>'+
+    '<div class="price" data-show="retail"><span class="now">'+rs(p.price)+'</span>'+(p.was?'<span class="was">'+rs(p.was)+'</span>':'')+'</div>'+
+    '<div class="slab" data-show="dealer">'+slabs+'</div>'+
+    '<span class="note" data-show="dealer">Per piece · carton of '+p.carton+'</span>'+
+    '</div></article>';
+}).join("");
+rail.addEventListener("click", function(e){
+  var a = e.target.closest("[data-add]"); if (!a) return;
+  var p = PRODUCTS[+a.dataset.add];
+  if (mode === "dealer") addCart(p.carton, "1 carton of "+p.id+" added ("+p.carton+" pcs)"); else addCart(1, p.name+" added to cart");
+});
+
+/* set builder */
+var setF = "chrome";
+document.getElementById("fpick").innerHTML = Object.keys(FIN).map(function(f){ return '<button type="button" data-f="'+f+'" aria-pressed="'+(f===setF)+'"><span class="sw '+f+'"></span>'+FIN[f].label+'</button>'; }).join("");
+document.getElementById("items").innerHTML = SET.map(function(s, i){
+  return '<label class="item" for="it-'+i+'"><input type="checkbox" id="it-'+i+'" data-i="'+i+'" checked><span>'+s.name+'<small class="mono">'+s.sku+'</small></span><span class="mono" id="ip-'+i+'"></span></label>';
+}).join("");
+document.getElementById("bview").innerHTML = SET.map(function(s, i){ return '<figure id="bf-'+i+'"><img src="'+s.img+'" alt="'+s.name+'" loading="lazy"><figcaption>'+s.sku+'</figcaption></figure>'; }).join("");
+function totals(){
+  var mult = FIN[setF].mult * (mode === "dealer" ? 0.78 : 1), sum = 0, n = 0;
+  SET.forEach(function(s, i){
+    document.getElementById("ip-"+i).textContent = rs(s.price*mult);
+    document.getElementById("bf-"+i).classList.toggle("off", !s.on);
+    if (s.on){ sum += s.price*mult; n++; }
+  });
+  var full = n === SET.length, save = full ? sum*0.1 : 0;
+  document.getElementById("t-count").textContent = n + (n===1?" piece":" pieces") + " · " + FIN[setF].label + (mode==="dealer" ? " · dealer price" : "");
+  document.getElementById("t-sum").textContent = rs(sum - save);
+  document.getElementById("t-save").textContent = full ? "Full set: you save " + rs(save) : "Add all 4 pieces to save 10%";
+  document.getElementById("add-set").disabled = n === 0;
+}
+document.getElementById("fpick").addEventListener("click", function(e){
+  var b = e.target.closest("button"); if (!b) return;
+  setF = b.dataset.f;
+  this.querySelectorAll("button").forEach(function(x){ x.setAttribute("aria-pressed", String(x===b)); });
+  totals();
+});
+document.getElementById("items").addEventListener("change", function(e){ SET[+e.target.dataset.i].on = e.target.checked; totals(); });
+document.getElementById("add-set").addEventListener("click", function(){
+  var n = SET.filter(function(s){ return s.on; }).length;
+  addCart(n, FIN[setF].label + " set added: " + n + " pieces");
+});
+
+/* dealers */
+var city = "Lahore";
+function cities(){
+  document.getElementById("cities").innerHTML = Object.keys(CITIES).map(function(c){ return '<button type="button" data-c="'+c+'" aria-pressed="'+(c===city)+'">'+c+'</button>'; }).join("");
+  document.getElementById("dlist").innerHTML = CITIES[city].map(function(d){
+    return '<div class="dealer"><b>'+d[0]+'</b><span>'+d[1]+', '+city+'</span><span class="mono" style="color:var(--ink);font-size:.88rem">0300 000 0000</span><a href="#find">Directions</a></div>';
+  }).join("");
+}
+document.getElementById("cities").addEventListener("click", function(e){ var b = e.target.closest("button"); if (!b) return; city = b.dataset.c; cities(); });
+
+cities();
+setMode(mode);
+})();
+</script>
