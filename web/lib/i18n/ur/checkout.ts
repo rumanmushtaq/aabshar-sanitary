@@ -29,6 +29,10 @@ const checkout: Record<string, string> = {
   "We could not find an order with this number and mobile number.": "اس آرڈر نمبر اور موبائل نمبر کے ساتھ کوئی آرڈر نہیں ملا۔",
   "Placed on": "آرڈر کی تاریخ",
   "This order was cancelled. Call us if you have a question.": "یہ آرڈر منسوخ ہو گیا۔ کوئی سوال ہو تو ہمیں کال کریں۔",
+  "How tracking works": "ٹریکنگ کیسے کام کرتی ہے",
+  "Need help with an order?": "آرڈر کے بارے میں مدد چاہیے؟",
+  "Mon–Sat, 9 am to 7 pm": "پیر تا ہفتہ، صبح 9 سے شام 7 بجے",
+  "Call": "کال کریں",
 };
 
 export default checkout;

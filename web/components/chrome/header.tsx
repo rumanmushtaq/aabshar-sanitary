@@ -243,7 +243,7 @@ function HeaderBar({ pathname }: { pathname: string | null }) {
               <div className="mega" id="mega" onClick={(e) => {
                 if ((e.target as Element).closest("a")) setMega(false);
               }}>
-                <div className="col gut" style={{ maxWidth: 1280, marginInline: "auto" }}>
+                <div className="col gut">
                   {MEGA.map(([h, items]) => (
                     <div key={h}>
                       <h4>{t(h)}</h4>

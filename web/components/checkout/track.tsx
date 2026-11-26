@@ -68,7 +68,9 @@ export function TrackOrder({ initialNo = "" }: { initialNo?: string }) {
         <p className="note">{t("Enter the order number from your confirmation and the mobile number you ordered with.")}</p>
       </div>
 
-      <form noValidate onSubmit={handleSubmit(onValid)} style={{ display: "grid", gap: 16, maxWidth: 640 }}>
+      <div className="cogrid">
+      <div style={{ display: "grid", gap: 24, minWidth: 0 }}>
+      <form noValidate onSubmit={handleSubmit(onValid)} style={{ display: "grid", gap: 16 }}>
         <fieldset className="cobox">
           <legend><i><BoxIcon width={14} height={14} /></i><span>{t("Your order")}</span></legend>
           <div className="fgrid2">
@@ -108,6 +110,31 @@ export function TrackOrder({ initialNo = "" }: { initialNo?: string }) {
           )}
         </div>
       )}
+      </div>
+
+      <aside className="cosum trk-aside" aria-label={t("How tracking works")}>
+        <h2>{t("How tracking works")}</h2>
+        <ol className="trk-steps">
+          {HELP.map(([label, desc], i) => (
+            <li key={label}><i className="mono">{i + 1}</i><div><b>{t(label)}</b><small>{t(desc)}</small></div></li>
+          ))}
+        </ol>
+        <div className="trk-help">
+          <b>{t("Need help with an order?")}</b>
+          <small>{t("Mon–Sat, 9 am to 7 pm")}</small>
+          <a className="btn wa full" href="https://wa.me/923000000000" target="_blank" rel="noreferrer">{t("Chat on WhatsApp")}</a>
+          <a className="btn line full" href="tel:+923000000000"><span>{t("Call")}</span> <span className="mono" dir="ltr">0300 000 0000</span></a>
+        </div>
+      </aside>
+      </div>
     </div>
   );
 }
+
+/** What each tracking step means, shown beside the form. */
+const HELP: [string, string][] = [
+  ["Order confirmed", "We confirm the order on WhatsApp"],
+  ["Packed at Gujranwala", "Within 24 hours"],
+  ["On the way", "Rider calls before arrival"],
+  ["Delivered", "Pay the rider in cash when it arrives."],
+];

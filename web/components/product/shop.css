@@ -3,6 +3,9 @@
 .shop-sort select{font:inherit;color:var(--ink);border:1.5px solid var(--line);border-radius:99px;padding:8px 16px;min-height:44px;background:#fff}
 .shop-sort select:focus-visible{border-color:var(--ink);outline:none;box-shadow:0 0 0 3px rgba(195,147,80,.35)}
 .shop-grid{row-gap:36px}
+/* More columns as the screen widens: 5 from 1600px, 6 from 2100px. */
+@media (min-width:1600px){.shop-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media (min-width:2100px){.shop-grid{grid-template-columns:repeat(6,minmax(0,1fr))}}
 .shop .head{margin-bottom:28px}
 .shop .ptabs{margin-bottom:32px}
 .shop .empty .btn{margin-top:6px}

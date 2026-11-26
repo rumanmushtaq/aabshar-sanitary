@@ -7,3 +7,19 @@
 /* Before body[data-view] is set on first load, keep the homepage nav transparent over the hero. */
 body:not([data-view]) .nav.top{background:linear-gradient(180deg,rgba(7,9,13,.7),rgba(7,9,13,0))}
 body:not([data-view]) .nav.top .col{height:80px}
+
+/* Footer wordmark: brass outline pulses, letter by letter (whole word in Urdu). */
+@keyframes wordPulse{
+  0%,100%{-webkit-text-stroke-color:rgba(195,147,80,.35);filter:none}
+  50%{-webkit-text-stroke-color:rgba(236,196,128,1);filter:drop-shadow(0 0 14px rgba(195,147,80,.55))}
+}
+.word span{display:inline-block;animation:wordPulse 3.6s ease-in-out infinite;animation-delay:calc(var(--i) * .22s)}
+.word.whole{animation:wordPulse 3.6s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.word span,.word.whole{animation:none}}
+/* Wordmark spans the whole footer column at every width ("Aabshar" is about 2.72em wide). */
+footer > .col{container-type:inline-size}
+@supports (font-size:1cqi){
+  footer .word{font-size:36cqi}
+  /* Nastaliq is tall and wide: smaller, with room above and below so it never covers the links or the legal line. */
+  html[lang="ur"] footer .word{font-size:17cqi;line-height:1.9;letter-spacing:0;padding-block:2cqi 0}
+}

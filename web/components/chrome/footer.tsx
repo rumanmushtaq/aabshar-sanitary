@@ -66,7 +66,7 @@ function NewsForm() {
 }
 
 export function Footer() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   return (
     <footer className="gut">
       <div className="col">
@@ -88,7 +88,10 @@ export function Footer() {
             </div>
           ))}
         </div>
-        <p className="word" aria-hidden="true">{t("Aabshar")}</p>
+        <p className={"word" + (lang === "ur" ? " whole" : "")} aria-hidden="true">
+          {/* Latin letters pulse one after another; Urdu letters join, so the Urdu word pulses as one. */}
+          {lang === "ur" ? t("Aabshar") : [...t("Aabshar")].map((c, i) => <span key={i} style={{ "--i": i } as React.CSSProperties}>{c}</span>)}
+        </p>
         <div className="legal">
           <span>{t("© 2026 Aabshar Sanitary · Design concept. Photos from Unsplash (free licence). Dealer names and numbers are samples.")}</span>
           <span>{t("Cash on Delivery · JazzCash · Easypaisa · Bank")}</span>

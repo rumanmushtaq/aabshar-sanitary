@@ -5,3 +5,11 @@
 .cogrid > *{min-width:0}
 .cosum{grid-template-columns:minmax(0,1fr)}
 .cosum .line > *{min-width:0}
+
+/* Track page side panel */
+.trk-steps{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.trk-steps li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px;align-items:start}
+.trk-steps i{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--stone-2);font-style:normal;font-size:.8rem}
+.trk-steps b{display:block;font-weight:600}
+.trk-steps small,.trk-help small{color:var(--muted);font-size:.84rem}
+.trk-help{display:grid;gap:10px;margin-top:8px;padding-top:18px;border-top:1px solid var(--line)}
