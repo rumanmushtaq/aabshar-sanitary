@@ -2,17 +2,23 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useI18n, useShop } from "@/components/providers";
-import { BY, FIN, type FinishId } from "@/lib/data";
+import { useCatalog, useI18n, useShop } from "@/components/providers";
+import { FIN, type FinishId } from "@/lib/data";
+import { productText } from "@/lib/i18n";
+import { soldOut } from "@/components/product/catalog";
 import { finWord, packOf, slabLabels } from "@/lib/pricing";
 import { Pic } from "@/components/product/pic";
 import { CloseIcon } from "@/components/icons";
 
 /** Body of the quick view modal (v7 renderQV). Remount with a new key to reset finish and quantity. */
 export function QuickView({ id, onClose, onLeave }: { id: string; onClose: () => void; onLeave: () => void }) {
-  const { t, rs, href } = useI18n();
+  const { t, rs, href, lang } = useI18n();
   const { mode, addItem, openOverlay, toast } = useShop();
+  const { BY } = useCatalog();
   const p = BY[id];
+  const txt = productText(p, lang);
+  const out = soldOut(p);
+  const stock = p.stock ?? Infinity;
   const dealer = mode === "dealer";
   const step = dealer ? p.carton : 1;
   const [fin, setFin] = useState<FinishId | "">(p.fins.includes("chrome") ? "chrome" : (p.fins[0] ?? ""));
@@ -35,19 +41,19 @@ export function QuickView({ id, onClose, onLeave }: { id: string; onClose: () =>
         <span className="now" style={{ fontSize: "1.5rem" }}>{rs(p.price * m)}</span>
         {p.was > 0 && <span className="was">{rs(p.was * m)}</span>}
       </div>
-      <span className="note">{[p.sub, "Cash on Delivery", p.wty ?? "10-year warranty"].filter((s): s is string => !!s).map((s) => t(s)).join(" · ")}</span>
+      <span className="note">{[txt.sub, t("Cash on Delivery"), t(p.wty ?? "10-year warranty")].filter((s): s is string => !!s).join(" · ")}</span>
     </>
   );
 
   return (
     <div className="qvg">
       <div className="qvimg">
-        <Pic p={p} big alt={t(p.name)} sizes="(max-width: 760px) 100vw, 490px" />
+        <Pic p={p} big alt={txt.name} sizes="(max-width: 760px) 100vw, 490px" />
       </div>
       <div className="qvinfo">
         <button className="x" type="button" aria-label={t("Close")} onClick={onClose}><CloseIcon /></button>
         <span className="eyebrow" style={{ color: "var(--brass-text)" }}>{t(p.cat)} · {p.id}</span>
-        <h2 id="qv-title">{t(p.name)}</h2>
+        <h2 id="qv-title">{txt.name}</h2>
         {price}
         {fin && (
           <div style={{ display: "grid", gap: 8 }}>
@@ -66,22 +72,23 @@ export function QuickView({ id, onClose, onLeave }: { id: string; onClose: () =>
           <span className="step-q" style={{ margin: 0 }}>
             <button type="button" aria-label={t("Fewer")} onClick={() => setQty((q) => Math.max(step, q - step))}>−</button>
             <span>{qty}</span>
-            <button type="button" aria-label={t("More")} onClick={() => setQty((q) => q + step)}>+</button>
+            <button type="button" aria-label={t("More")} disabled={out || qty + step > stock} onClick={() => setQty((q) => q + step)}>+</button>
           </span>
           <button
             className="btn dark"
             type="button"
             style={{ flex: 1 }}
+            disabled={out}
             onClick={() => {
               addItem(p.id, fin, qty, true);
               openOverlay("cart");
             }}
           >
-            {t(dealer ? (p.carton > 1 ? `Add ${n} ${packOf(p)}${n > 1 ? "s" : ""}` : `Add ${qty} pcs`) : "Add to cart")}
+            {out ? t("Out of stock") : t(dealer ? (p.carton > 1 ? `Add ${n} ${packOf(p)}${n > 1 ? "s" : ""}` : `Add ${qty} pcs`) : "Add to cart")}
           </button>
         </div>
         <ul className="specs">
-          {p.specs.map((s) => <li key={s}>{t(s)}</li>)}
+          {txt.specs.map((s) => <li key={s}>{s}</li>)}
         </ul>
         <div className="qvlinks">
           <Link className="link" href={href("/p/" + p.id)} onClick={onLeave}>{t("Full details")}</Link>

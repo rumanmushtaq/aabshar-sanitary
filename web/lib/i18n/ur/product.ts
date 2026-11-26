@@ -17,6 +17,12 @@ const product: Record<string, string> = {
   "Price: low to high": "قیمت: کم سے زیادہ",
   "Price: high to low": "قیمت: زیادہ سے کم",
   "No products in this category yet.": "اس زمرے میں ابھی کوئی پروڈکٹ نہیں۔",
+  // stock
+  "Out of stock": "اسٹاک ختم",
+  "Only": "صرف",
+  "left in stock": "باقی ہیں",
+  "no longer available": "اب دستیاب نہیں",
+  "Quick view:": "فوری جائزہ:",
 };
 
 export default product;

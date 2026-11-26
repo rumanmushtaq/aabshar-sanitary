@@ -1,4 +1,5 @@
 import type { Lang } from "./config";
+import type { Product } from "../data";
 import ur from "./ur";
 import rules from "./ur/rules";
 
@@ -54,4 +55,15 @@ export function href(path: string, lang: Lang): string {
   if (path === "/") return "/" + lang;
   if (path.startsWith("/#")) return "/" + lang + path.slice(1);
   return "/" + lang + path;
+}
+
+/** Product name, sub-line and specs in a language: admin-entered Urdu first, then the dictionary, then English. */
+export function productText(p: Product, lang: Lang) {
+  if (lang === "en") return { name: p.name, sub: p.sub, specs: p.specs };
+  const t = getT(lang);
+  return {
+    name: p.nameUr || t(p.name),
+    sub: p.sub ? p.subUr || t(p.sub) : undefined,
+    specs: p.specsUr?.length ? p.specsUr : p.specs.map(t),
+  };
 }

@@ -19,6 +19,7 @@ const MENU: [string, string][] = [
   ["Bathroom sets", "/#sets"],
   ["For dealers", "/#ways"],
   ["Dealer portal", "/dealer"],
+  ["Track order", "/track"],
   ["Our factory", "/#factory"],
   ["Shop the look", "/#ideas"],
 ];

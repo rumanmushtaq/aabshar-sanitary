@@ -2,9 +2,11 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { BY, FIN, LOOKS, type Look, type LookItem } from "@/lib/data";
+import { FIN, LOOKS, type Look, type LookItem } from "@/lib/data";
+import { productText } from "@/lib/i18n";
 import { lookPrice } from "@/lib/pricing";
-import { useI18n, useShop } from "@/components/providers";
+import { lookItems, soldOut } from "@/components/product/catalog";
+import { useCatalog, useI18n, useShop } from "@/components/providers";
 import { NextIcon, PrevIcon } from "./icons";
 import { scrollToId, useHomeHash } from "./use-home-hash";
 
@@ -36,6 +38,7 @@ function LookThumb({ L, it, name }: { L: Look; it: LookItem; name: string }) {
 export function ShopTheLook() {
   const { t, rs, lang } = useI18n();
   const { mode, addItem, quickView, toast } = useShop();
+  const { BY } = useCatalog();
   const [lk, setLk] = useState(0);
   const [swap, setSwap] = useState(false);
   /** Index of the hotspot whose popup is open. */
@@ -51,6 +54,9 @@ export function ShopTheLook() {
   const tx0 = useRef<number | null>(null);
 
   const L = LOOKS[lk];
+  /** Hotspots whose products are in the catalogue (missing or inactive ones are skipped). */
+  const items = lookItems(L, BY);
+  const name = (id: string) => productText(BY[id], lang).name;
   const dealer = mode === "dealer";
   const rtl = lang === "ur";
 
@@ -111,7 +117,7 @@ export function ShopTheLook() {
     const dh = nh * sc;
     const ox = (box.w - dw) * px;
     const oy = (box.h - dh) * py;
-    return L.items.map((it) => {
+    return items.map((it) => {
       const x = ox + (it[1] / 100) * dw;
       const y = oy + (it[2] / 100) * dh;
       return { x, y, inside: x > 18 && x < box.w - 18 && y > 18 && y < box.h - 18 };
@@ -135,8 +141,8 @@ export function ShopTheLook() {
   }, [hx, hy, box]);
 
   const priceText = (n: number) => (dealer ? t(rs(n) + " / pc") : rs(n));
-  const sum = L.items.reduce((a, it) => a + lookPrice(it[0], it[3], mode), 0);
-  const popIt = pop != null ? L.items[pop] : null;
+  const sum = items.reduce((a, it) => a + lookPrice(BY[it[0]], it[3], mode), 0);
+  const popIt = pop != null ? items[pop] : null;
   const popP = popIt ? BY[popIt[0]] : null;
 
   const onTabKey = (e: React.KeyboardEvent) => {
@@ -148,8 +154,9 @@ export function ShopTheLook() {
   };
 
   const addLook = () => {
-    L.items.forEach((it) => addItem(it[0], it[3], undefined, true));
-    toast(`Whole look added: ${L.items.length} fittings`);
+    const avail = items.filter((it) => !soldOut(BY[it[0]]));
+    avail.forEach((it) => addItem(it[0], it[3], undefined, true));
+    toast(`Whole look added: ${avail.length} fittings`);
   };
 
   const [dw, dh] = DIMS[L.img] ?? [1600, 1067];
@@ -180,7 +187,7 @@ export function ShopTheLook() {
             >
               <Image src={x.img} alt="" width={112} height={112} sizes="56px" style={{ objectPosition: x.pos }} />
               <b>{t(x.name)}</b>
-              <small>{t(`${x.items.length} fittings`)}</small>
+              <small>{t(`${lookItems(x, BY).length} fittings`)}</small>
             </button>
           ))}
         </div>
@@ -214,7 +221,7 @@ export function ShopTheLook() {
               onError={() => setSwap(false)}
             />
             <div id="hots">
-              {L.items.map((it, k) => {
+              {items.map((it, k) => {
                 const h = hots?.[k];
                 return (
                   <button
@@ -222,7 +229,7 @@ export function ShopTheLook() {
                     className="hot"
                     type="button"
                     aria-expanded={pop === k}
-                    aria-label={t(BY[it[0]].name)}
+                    aria-label={name(it[0])}
                     hidden={!h?.inside}
                     style={h ? { left: h.x, top: h.y } : undefined}
                     onClick={() => setPop(pop === k ? null : k)}
@@ -234,10 +241,10 @@ export function ShopTheLook() {
             </div>
             {popIt && popP && (
               <div className="pop" id="pop" ref={popRef}>
-                <LookThumb L={L} it={popIt} name={t(popP.name)} />
+                <LookThumb L={L} it={popIt} name={name(popP.id)} />
                 <div>
-                  <b>{t(popP.name)}</b>
-                  <span className="mono">{priceText(lookPrice(popP.id, popIt[3], mode))}</span>
+                  <b>{name(popP.id)}</b>
+                  <span className="mono">{soldOut(popP) ? t("Out of stock") : priceText(lookPrice(popP, popIt[3], mode))}</span>
                 </div>
                 <button type="button" onClick={() => quickView(popP.id)}>{t("View fitting")}</button>
               </div>
@@ -252,17 +259,17 @@ export function ShopTheLook() {
             <h3 className="lname" id="lname">{t(L.name)}</h3>
             <p className="lmood" id="lmood">{t(L.mood)}</p>
             <div id="looklist">
-              {L.items.map((it) => {
+              {items.map((it) => {
                 const p = BY[it[0]];
                 const fin = it[3];
                 return (
                   <div key={it[0]} className="line">
-                    <LookThumb L={L} it={it} name={t(p.name)} />
+                    <LookThumb L={L} it={it} name={name(p.id)} />
                     <div>
-                      <b>{t(p.name)}</b>
+                      <b>{name(p.id)}</b>
                       <small className="mono">{p.id}{fin ? " · " + t(FIN[fin].label) : ""}</small>
                       <br />
-                      <span className="mono" style={{ fontSize: ".9rem" }}>{priceText(lookPrice(p.id, fin, mode))}</span>
+                      <span className="mono" style={{ fontSize: ".9rem" }}>{soldOut(p) ? t("Out of stock") : priceText(lookPrice(p, fin, mode))}</span>
                     </div>
                     <button type="button" onClick={() => quickView(p.id)}>{t("View")}</button>
                   </div>
@@ -273,7 +280,7 @@ export function ShopTheLook() {
               <span>{t("Whole look")}</span>
               <span className="mono" id="looksum">{dealer ? t(rs(sum) + " / set") : rs(sum)}</span>
             </div>
-            <button className="btn dark full" type="button" id="addlook" style={{ marginTop: 10 }} onClick={addLook}>{t("Add the whole look")}</button>
+            <button className="btn dark full" type="button" id="addlook" style={{ marginTop: 10 }} disabled={!items.some((it) => !soldOut(BY[it[0]]))} onClick={addLook}>{t("Add the whole look")}</button>
           </aside>
         </div>
       </div>

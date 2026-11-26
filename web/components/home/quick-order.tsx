@@ -3,9 +3,10 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { BY, CATALOG } from "@/lib/data";
+import { productText } from "@/lib/i18n";
 import { packOf } from "@/lib/pricing";
-import { useI18n, useShop } from "@/components/providers";
+import { soldOut } from "@/components/product/catalog";
+import { useCatalog, useI18n, useShop } from "@/components/providers";
 
 const schema = z.object({
   sku: z.string().trim().min(1),
@@ -15,8 +16,9 @@ type Values = z.infer<typeof schema>;
 
 /** Dealer quick order: type a SKU and a number of cartons. Shown in dealer mode only. */
 export function QuickOrder() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const { addItem, toast } = useShop();
+  const { catalog, BY } = useCatalog();
   const { register, handleSubmit, reset, setFocus } = useForm<Values>({
     resolver: zodResolver(schema),
     defaultValues: { sku: "", n: 1 },
@@ -27,6 +29,11 @@ export function QuickOrder() {
     const p = BY[id];
     if (!p) {
       toast("No product with SKU " + id);
+      setFocus("sku");
+      return;
+    }
+    if (soldOut(p)) {
+      toast(t("Out of stock") + " · " + id);
       setFocus("sku");
       return;
     }
@@ -45,7 +52,7 @@ export function QuickOrder() {
       <input id="qo-n" type="number" min={1} inputMode="numeric" required {...register("n", { valueAsNumber: true })} />
       <button className="btn dark" type="submit">{t("Add to order")}</button>
       <datalist id="skus">
-        {CATALOG.map((p) => <option key={p.id} value={p.id}>{t(p.name)}</option>)}
+        {catalog.map((p) => <option key={p.id} value={p.id}>{productText(p, lang).name}</option>)}
       </datalist>
     </form>
   );

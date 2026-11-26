@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useI18n, useShop } from "@/components/providers";
-import { BY, FIN, FREE_OVER } from "@/lib/data";
+import { useCatalog, useI18n, useShop } from "@/components/providers";
+import { FIN, FREE_OVER } from "@/lib/data";
+import { productText } from "@/lib/i18n";
 import { lineTotal } from "@/lib/pricing";
 import { Pic } from "@/components/product/pic";
 import { BagIcon, CloseIcon } from "@/components/icons";
@@ -10,8 +11,9 @@ import { NavLink } from "./nav-link";
 
 /** Cart drawer (v7 renderCart). */
 export function CartDrawer({ open, onClose, onLeave }: { open: boolean; onClose: () => void; onLeave: () => void }) {
-  const { t, rs, href } = useI18n();
+  const { t, rs, href, lang } = useI18n();
   const { mode, cart, count, sum, setQty, removeLine, toast } = useShop();
+  const { BY } = useCatalog();
   const router = useRouter();
   const dealer = mode === "dealer";
   const pct = Math.min(100, (sum / FREE_OVER) * 100);
@@ -32,15 +34,17 @@ export function CartDrawer({ open, onClose, onLeave }: { open: boolean; onClose:
         {cart.length ? (
           cart.map((l, i) => {
             const p = BY[l.id];
+            if (!p) return null;
+            const name = productText(p, lang).name;
             const step = dealer ? p.carton : 1;
             const info = [p.id];
             if (l.fin) info.push(t(FIN[l.fin].label));
             if (dealer) info.push(t(p.carton > 1 ? `${l.qty / p.carton} ${p.pack === "bundle" ? "bdl" : "ctn"}` : `${l.qty} pcs`));
             return (
               <div className="line" key={l.id + l.fin}>
-                <Pic p={p} alt={t(p.name)} sizes="72px" />
+                <Pic p={p} alt={name} sizes="72px" />
                 <div>
-                  <b>{t(p.name)}</b>
+                  <b>{name}</b>
                   <small className="mono">{info.join(" · ")}</small>
                   <br />
                   <span className="step-q">
@@ -50,7 +54,7 @@ export function CartDrawer({ open, onClose, onLeave }: { open: boolean; onClose:
                   </span>
                 </div>
                 <div style={{ textAlign: "end", display: "grid", gap: 4, justifyItems: "end" }}>
-                  <span className="mono">{rs(lineTotal(l, mode))}</span>
+                  <span className="mono">{rs(lineTotal(l, BY, mode))}</span>
                   <button className="rm" type="button" onClick={() => removeLine(i)}>{t("Remove")}</button>
                 </div>
               </div>

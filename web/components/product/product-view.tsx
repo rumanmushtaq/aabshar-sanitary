@@ -7,16 +7,17 @@ import { useRouter } from "next/navigation";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { BY, FIN, LOOKS, SHIP, type FinishId } from "@/lib/data";
+import { FIN, LOOKS, type FinishId } from "@/lib/data";
+import { productText } from "@/lib/i18n";
 import { finWord, packOf, slabIndex, slabLabels, unitPrice } from "@/lib/pricing";
-import { etaDate, shipFee } from "@/lib/shipping";
-import { useI18n, useShop } from "@/components/providers";
+import { etaDate, rateFor, shipFee } from "@/lib/shipping";
+import { useCatalog, useI18n, useShop } from "@/components/providers";
 import { WhatsAppIcon } from "@/components/icons";
-import { gallery, type GalleryImg } from "./catalog";
+import { LOW_STOCK, gallery, soldOut, type GalleryImg } from "./catalog";
 import { TruckIcon } from "./product-icons";
+import "./shop.css";
 
-const CITIES = Object.keys(SHIP) as [string, ...string[]];
-const shipSchema = z.object({ city: z.enum(CITIES) });
+const shipSchema = z.object({ city: z.string() });
 type ShipForm = z.infer<typeof shipSchema>;
 
 // Today's date, read only in the browser so the prerendered HTML never carries a stale date.
@@ -43,8 +44,13 @@ function GImg({ g, className, sizes, preload }: { g: GalleryImg; className?: str
  * children (perks and accordion) are rendered by the server at the end of the info column.
  */
 export function ProductView({ id, children }: { id: string; children?: React.ReactNode }) {
+  const { BY, ship } = useCatalog();
   const p = BY[id];
-  const { t, rs, href, dateStr } = useI18n();
+  const { t, rs, href, dateStr, lang } = useI18n();
+  const txt = productText(p, lang);
+  const cities = Object.keys(ship);
+  const stock = p.stock ?? Infinity;
+  const out = soldOut(p);
   const { mode, addItem, openOverlay, toast } = useShop();
   const router = useRouter();
   const dealer = mode === "dealer";
@@ -62,22 +68,27 @@ export function ProductView({ id, children }: { id: string; children?: React.Rea
   if (dealer && qty % p.carton) qty = Math.max(p.carton, Math.round(qty / p.carton) * p.carton);
   if (!dealer && qty > 20) qty = 1;
   const step = dealer ? p.carton : 1;
+  // Never more than the stock (in whole cartons for dealers).
+  if (qty > stock && stock >= step) qty = Math.floor(stock / step) * step;
   const bump = (d: number) => setQty(Math.max(dealer ? p.carton : 1, qty + d));
+  const more = qty + step <= stock;
 
   const each = unitPrice(p, fin, qty, mode);
   const total = each * qty;
 
-  const { register, control } = useForm<ShipForm>({ resolver: zodResolver(shipSchema), defaultValues: { city: "Gujranwala" } });
+  const { register, control } = useForm<ShipForm>({ resolver: zodResolver(shipSchema), defaultValues: { city: ship.Gujranwala ? "Gujranwala" : (cities[0] ?? "") } });
   const city = useWatch({ control, name: "city" });
-  const fee = shipFee(city, dealer ? 0 : total);
+  const fee = shipFee(ship, city, dealer ? 0 : total);
   const today = useToday();
-  const eta = today ? etaDate((SHIP[city] ?? SHIP.Lahore).d, new Date(today)) : null;
+  const eta = today ? etaDate(rateFor(ship, city).d, new Date(today)) : null;
 
   const add = () => {
+    if (out) return;
     addItem(p.id, fin, qty, true);
     openOverlay("cart");
   };
   const buy = () => {
+    if (out) return;
     addItem(p.id, fin, qty, true);
     router.push(href("/checkout"));
   };
@@ -126,8 +137,8 @@ export function ProductView({ id, children }: { id: string; children?: React.Rea
           <span className="eyebrow" style={{ color: "var(--brass-text)" }}>
             {t(p.cat)} · <span className="sku-t">{p.id}</span>
           </span>
-          <h1 className="display ph1">{t(p.name)}</h1>
-          <p className="psub">{t(p.sub ?? p.specs[0])}</p>
+          <h1 className="display ph1">{txt.name}</h1>
+          <p className="psub">{txt.sub ?? txt.specs[0]}</p>
 
           {dealer ? (
             <>
@@ -141,7 +152,7 @@ export function ProductView({ id, children }: { id: string; children?: React.Rea
               </div>
               <p className="note">
                 <span>{t(p.carton > 1 ? `Per piece · ${packOf(p)} of ${p.carton}` : "Per piece · min 1")}</span> ·{" "}
-                <span className="ok">{t("In stock at Gujranwala")}</span>
+                <StockNote out={out} stock={stock} label="In stock at Gujranwala" />
               </p>
             </>
           ) : (
@@ -156,7 +167,7 @@ export function ProductView({ id, children }: { id: string; children?: React.Rea
                 )}
               </div>
               <p className="note">
-                <span>{t("Price includes tax")}</span> · <span className="ok">{t("In stock")}</span>
+                <span>{t("Price includes tax")}</span> · <StockNote out={out} stock={stock} label="In stock" />
               </p>
             </>
           )}
@@ -193,13 +204,13 @@ export function ProductView({ id, children }: { id: string; children?: React.Rea
               <span className="step-q big">
                 <button type="button" aria-label={t("Fewer")} onClick={() => bump(-step)}>−</button>
                 <span className="mono">{dealer ? qty / p.carton : qty}</span>
-                <button type="button" aria-label={t("More")} onClick={() => bump(step)}>+</button>
+                <button type="button" aria-label={t("More")} disabled={out || !more} onClick={() => bump(step)}>+</button>
               </span>
-              <button className="btn dark" type="button" id="p-add" onClick={add}>
-                <span>{t("Add to cart")}</span> · <span className="mono">{rs(total)}</span>
+              <button className="btn dark" type="button" id="p-add" disabled={out} onClick={add}>
+                {out ? <span>{t("Out of stock")}</span> : <><span>{t("Add to cart")}</span> · <span className="mono">{rs(total)}</span></>}
               </button>
             </div>
-            <button className="btn brass full" type="button" id="p-buy" onClick={buy}>
+            <button className="btn brass full" type="button" id="p-buy" disabled={out} onClick={buy}>
               {t(dealer ? "Order now on credit" : "Buy now · Cash on Delivery")}
             </button>
             <button className="btn wa full" type="button" id="p-wa" onClick={() => toast(`Opens WhatsApp with ${p.id} in the message`)}>
@@ -213,7 +224,7 @@ export function ProductView({ id, children }: { id: string; children?: React.Rea
             <div>
               <label htmlFor="pcity">{t("Deliver to")}</label>{" "}
               <select id="pcity" {...register("city")}>
-                {CITIES.map((c) => <option key={c} value={c}>{t(c)}</option>)}
+                {cities.map((c) => <option key={c} value={c}>{t(c)}</option>)}
               </select>
               <p>
                 <span>{t("Arrives by")}</span> <b>{eta ? dateStr(eta, true) : " "}</b> ·{" "}
@@ -234,11 +245,20 @@ export function ProductView({ id, children }: { id: string; children?: React.Rea
 
       <div className="pbar" id="pbar">
         <div>
-          <b>{t(p.name)}</b>
+          <b>{txt.name}</b>
           <span className="mono">{rs(total)}</span>
         </div>
-        <button className="btn dark" type="button" onClick={add}>{t("Add to cart")}</button>
+        <button className="btn dark" type="button" disabled={out} onClick={add}>{t(out ? "Out of stock" : "Add to cart")}</button>
       </div>
     </>
   );
+}
+
+/** "In stock", "Only N left" under LOW_STOCK pieces, or "Out of stock". */
+function StockNote({ out, stock, label }: { out: boolean; stock: number; label: string }) {
+  const { t } = useI18n();
+  if (out) return <span className="warn">{t("Out of stock")}</span>;
+  if (stock < LOW_STOCK)
+    return <span className="warn">{t("Only")} <span className="mono">{stock}</span> {t("left in stock")}</span>;
+  return <span className="ok">{t(label)}</span>;
 }

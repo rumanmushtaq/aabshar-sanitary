@@ -4,6 +4,7 @@ import { Fraunces, JetBrains_Mono, Manrope, Noto_Nastaliq_Urdu } from "next/font
 import { LANGS, LOCALES, hasLang } from "@/lib/i18n/config";
 import { getT } from "@/lib/i18n";
 import { Providers } from "@/components/providers";
+import { getCatalog, getShipRates } from "@/lib/store";
 import { Footer, Header, Overlays } from "@/components/chrome";
 import "../globals.css";
 
@@ -33,10 +34,11 @@ export const viewport: Viewport = { themeColor: "#0d1117", viewportFit: "cover" 
 export default async function LangLayout({ children, params }: LayoutProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLang(lang)) notFound();
+  const [catalog, ship] = await Promise.all([getCatalog(), getShipRates()]);
   return (
     <html lang={lang} dir={LANGS[lang].dir} className={[fraunces.variable, manrope.variable, jetbrains.variable, nastaliq.variable].join(" ")}>
       <body className="retail">
-        <Providers lang={lang}>
+        <Providers lang={lang} catalog={catalog} ship={ship}>
           <Header />
           <main id="top">{children}</main>
           <Footer />

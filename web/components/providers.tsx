@@ -2,9 +2,10 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import type { Lang } from "@/lib/i18n/config";
-import { getT, rs as rsFor, href as hrefFor, dateStr as dateFor, type T } from "@/lib/i18n";
-import { BY, type FinishId } from "@/lib/data";
-import { cartCount, cartSum, packOf, type CartLine, type Mode } from "@/lib/pricing";
+import { getT, productText, rs as rsFor, href as hrefFor, dateStr as dateFor, type T } from "@/lib/i18n";
+import type { FinishId, Product } from "@/lib/data";
+import { cartCount, cartSum, packOf, type ById, type CartLine, type Mode } from "@/lib/pricing";
+import type { ShipRates } from "@/lib/store";
 
 /* ---------- language ---------- */
 
@@ -21,6 +22,19 @@ const I18nCtx = createContext<I18n | null>(null);
 export function useI18n(): I18n {
   const v = useContext(I18nCtx);
   if (!v) throw new Error("useI18n outside <Providers>");
+  return v;
+}
+
+/* ---------- catalogue from the database ---------- */
+
+type Catalog = { catalog: Product[]; BY: ById; ship: ShipRates };
+
+const CatalogCtx = createContext<Catalog | null>(null);
+
+/** Active products (in display order), products by SKU, and delivery rates by city. */
+export function useCatalog(): Catalog {
+  const v = useContext(CatalogCtx);
+  if (!v) throw new Error("useCatalog outside <Providers>");
   return v;
 }
 
@@ -48,9 +62,6 @@ type Shop = {
   /** Product shown in quick view. */
   qvId: string | null;
   quickView: (id: string) => void;
-  /** Demo dealer session for the portal. */
-  dealerIn: boolean;
-  setDealerIn: (v: boolean) => void;
   /** Bumped on every add, so the cart badge can replay its animation. */
   bump: number;
 };
@@ -78,7 +89,15 @@ function save(key: string, v: unknown) {
   } catch {}
 }
 
-export function Providers({ lang, children }: { lang: Lang; children: React.ReactNode }) {
+export function Providers({ lang, catalog, ship, children }: {
+  lang: Lang;
+  catalog: Product[];
+  ship: ShipRates;
+  children: React.ReactNode;
+}) {
+  const cat = useMemo<Catalog>(() => ({ catalog, BY: Object.fromEntries(catalog.map((p) => [p.id, p])), ship }), [catalog, ship]);
+  const BY = cat.BY;
+
   const i18n = useMemo<I18n>(() => {
     const t = getT(lang);
     return {
@@ -93,17 +112,15 @@ export function Providers({ lang, children }: { lang: Lang; children: React.Reac
   // Saved state is read after mount, so the server HTML (retail, empty cart) always matches the first render.
   const [mode, setModeState] = useState<Mode>("retail");
   const [cart, setCart] = useState<CartLine[]>([]);
-  const [dealerIn, setDealerInState] = useState(false);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
     /* eslint-disable react-hooks/set-state-in-effect -- one-time restore of saved state after hydration */
     setModeState(load<Mode>("aab-mode", "retail") === "dealer" ? "dealer" : "retail");
     setCart(load<CartLine[]>("aab-cart", []).filter((l) => BY[l.id] && l.qty > 0));
-    setDealerInState(load<boolean>("aab-dealer-in", false) === true);
     setReady(true);
     /* eslint-enable react-hooks/set-state-in-effect */
-  }, []);
+  }, [BY]);
 
   useEffect(() => {
     if (ready) save("aab-cart", cart);
@@ -137,16 +154,11 @@ export function Providers({ lang, children }: { lang: Lang; children: React.Reac
           const n = BY[l.id].carton;
           return { ...l, qty: Math.max(n, Math.ceil(l.qty / n) * n) };
         }));
-        toast("Showing dealer prices (demo)");
+        toast("Showing dealer prices");
       }
     },
-    [toast],
+    [BY, toast],
   );
-
-  const setDealerIn = useCallback((v: boolean) => {
-    setDealerInState(v);
-    save("aab-dealer-in", v);
-  }, []);
 
   const [bump, setBump] = useState(0);
   const addItem = useCallback<Shop["addItem"]>(
@@ -162,13 +174,17 @@ export function Providers({ lang, children }: { lang: Lang; children: React.Reac
       });
       setBump((b) => b + 1);
       if (quiet) return;
-      if (mode !== "dealer") toast(p.name + " added to cart");
+      if (mode !== "dealer") {
+        // Admin-entered Urdu name when there is one; toast() leaves already-Urdu text as it is.
+        const name = productText(p, i18n.lang).name;
+        toast(i18n.lang === "ur" ? name + " کارٹ میں شامل" : name + " added to cart");
+      }
       else if (p.carton > 1) {
         const n = q / p.carton;
         toast(`${n} ${packOf(p)}${n > 1 ? "s" : ""} of ${id} added`);
       } else toast(`${q} pcs of ${id} added`);
     },
-    [mode, toast],
+    [BY, i18n.lang, mode, toast],
   );
 
   const setQty = useCallback((index: number, qty: number) => {
@@ -195,7 +211,7 @@ export function Providers({ lang, children }: { lang: Lang; children: React.Reac
     setMode,
     cart,
     count: cartCount(cart),
-    sum: cartSum(cart, mode),
+    sum: cartSum(cart, BY, mode),
     addItem,
     setQty,
     removeLine,
@@ -208,14 +224,14 @@ export function Providers({ lang, children }: { lang: Lang; children: React.Reac
     closeOverlay,
     qvId,
     quickView,
-    dealerIn,
-    setDealerIn,
     bump,
   };
 
   return (
     <I18nCtx.Provider value={i18n}>
-      <ShopCtx.Provider value={shop}>{children}</ShopCtx.Provider>
+      <CatalogCtx.Provider value={cat}>
+        <ShopCtx.Provider value={shop}>{children}</ShopCtx.Provider>
+      </CatalogCtx.Provider>
     </I18nCtx.Provider>
   );
 }

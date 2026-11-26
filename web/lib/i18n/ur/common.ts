@@ -457,6 +457,7 @@ const common: Record<string, string> = {
   "Household plastic": "گھریلو پلاسٹک",
   "Chat on WhatsApp": "واٹس ایپ پر بات کریں",
   "Showing dealer prices (demo)": "ڈیلر ریٹ دکھائے جا رہے ہیں (نمونہ)",
+  "Showing dealer prices": "ڈیلر ریٹ دکھائے جا رہے ہیں",
   "Switched to Urdu": "اردو منتخب ہو گئی",
   "Checkout screen comes next in the design": "چیک آؤٹ اسکرین اگلے مرحلے میں بنے گی",
   "Opens WhatsApp with your list and total": "واٹس ایپ آپ کی فہرست اور کل رقم کے ساتھ کھلے گا",

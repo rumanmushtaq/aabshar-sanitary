@@ -4,8 +4,9 @@ import Link from "next/link";
 import type { Lang } from "@/lib/i18n/config";
 import { getT, href as hrefFor } from "@/lib/i18n";
 import { BEST } from "@/lib/data";
+import { getCatalog } from "@/lib/store";
 import { ProductCard } from "@/components/product/product-card";
-import { catSlug } from "@/components/product/catalog";
+import { catSlug, pick } from "@/components/product/catalog";
 import { ArrowIcon, CardIcon, ChatIcon, LockIcon, ShieldIcon, TickIcon, TruckIcon } from "./icons";
 import { QuickOrder } from "./quick-order";
 import { TankFinder } from "./tank-finder";
@@ -84,8 +85,13 @@ export function ShopMosaic({ lang }: L) {
   );
 }
 
-export function Best({ lang }: L) {
+/** Best-seller SKUs (design constant); resolved through the database catalogue. */
+const BEST_IDS = BEST.flatMap((p) => (p ? [p.id] : []));
+
+export async function Best({ lang }: L) {
   const t = getT(lang);
+  const catalog = await getCatalog();
+  const best = pick(BEST_IDS, Object.fromEntries(catalog.map((p) => [p.id, p])));
   return (
     <section className="band gut" id="best" style={{ paddingTop: 0 }}>
       <div className="col">
@@ -102,7 +108,7 @@ export function Best({ lang }: L) {
         </div>
         <QuickOrder />
         <div className="rail" id="rail">
-          {BEST.map((p) => <ProductCard key={p.id} p={p} />)}
+          {best.map((p) => <ProductCard key={p.id} p={p} />)}
         </div>
       </div>
     </section>

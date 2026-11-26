@@ -1,35 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm, useWatch } from "react-hook-form";
-import { useI18n, useShop } from "@/components/providers";
+import { useCatalog, useI18n, useShop } from "@/components/providers";
 import { Pic } from "@/components/product/pic";
-import { BY, CATALOG } from "@/lib/data";
+import { productText } from "@/lib/i18n";
 import { unitPrice } from "@/lib/pricing";
 import { dealerCats } from "./data";
 
-const CATS = dealerCats();
 const SLABS = ["1–4", "5–19", "20+"];
 
-/** Dealer price list with carton steppers. Cartons are added to the cart in pieces. */
+/** Dealer price list with carton steppers. Cartons are added to the cart in pieces, then the dealer goes to checkout. */
 export function QuickOrder({ initialCat }: { initialCat: string }) {
-  const { t, rs } = useI18n();
-  const { addItem, openOverlay, toast } = useShop();
-  const [cat, setCat] = useState(initialCat);
+  const { lang, t, rs, href } = useI18n();
+  const { catalog, BY } = useCatalog();
+  const { addItem, toast } = useShop();
+  const router = useRouter();
+  const cats = useMemo(() => dealerCats(catalog), [catalog]);
+  const [cat, setCat] = useState(cats.includes(initialCat) ? initialCat : "All");
   /** Cartons chosen per product id. */
   const [cartons, setCartons] = useState<Record<string, number>>({});
   const { register, control } = useForm<{ q: string }>({ defaultValues: { q: "" } });
   const q = useWatch({ control, name: "q" }).trim().toLowerCase();
 
-  const rows = CATALOG.filter(
-    (p) => (cat === "All" || p.cat === cat) && (!q || (p.name + " " + p.id + " " + t(p.name)).toLowerCase().includes(q)),
+  const rows = catalog.filter(
+    (p) => (cat === "All" || p.cat === cat) && (!q || (p.name + " " + p.id + " " + productText(p, lang).name).toLowerCase().includes(q)),
   );
 
   let ctn = 0;
   let total = 0;
   for (const [id, n] of Object.entries(cartons)) {
-    if (!n) continue;
     const p = BY[id];
+    if (!n || !p) continue;
     ctn += n;
     total += unitPrice(p, p.fins[0] ?? "", n * p.carton, "dealer") * n * p.carton;
   }
@@ -39,20 +42,20 @@ export function QuickOrder({ initialCat }: { initialCat: string }) {
   const addAll = () => {
     let n = 0;
     for (const [id, c] of Object.entries(cartons)) {
-      if (!c) continue;
+      if (!c || !BY[id]) continue;
       addItem(id, undefined, c * BY[id].carton, true);
       n += c;
     }
     setCartons({});
-    openOverlay("cart");
     toast(`${n} cartons added to your order`);
+    router.push(href("/checkout"));
   };
 
   return (
     <>
       <div className="qtools">
         <div className="chips">
-          {CATS.map((c) => (
+          {cats.map((c) => (
             <button key={c} type="button" aria-pressed={c === cat} onClick={() => setCat(c)}>{t(c)}</button>
           ))}
         </div>
@@ -70,7 +73,7 @@ export function QuickOrder({ initialCat }: { initialCat: string }) {
         {rows.map((p) => {
           const n = cartons[p.id] ?? 0;
           const k = n >= 20 ? 2 : n >= 5 ? 1 : 0;
-          const name = t(p.name);
+          const name = productText(p, lang).name;
           return (
             <div className="qr" role="row" key={p.id}>
               <span className="qp" role="cell">

@@ -2,41 +2,47 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BY, CATALOG, FIN, LOOKS } from "@/lib/data";
+import { FIN, LOOKS } from "@/lib/data";
 import { hasLang } from "@/lib/i18n/config";
-import { getT, href, rs } from "@/lib/i18n";
+import { getT, href, productText, rs } from "@/lib/i18n";
 import { finWord, lookPrice, packOf } from "@/lib/pricing";
+import { getCatalog, getProduct } from "@/lib/store";
 import { ProductCard } from "@/components/product/product-card";
 import { ProductView } from "@/components/product/product-view";
-import { looksWith, related } from "@/components/product/catalog";
+import { lookItems, looksWith, related, soldOut } from "@/components/product/catalog";
 import { CashIcon, CheckIcon, PlayIcon, ReturnIcon, ShieldIcon } from "@/components/product/product-icons";
 
 type Props = { params: Promise<{ lang: string; sku: string }> };
 
 // The [lang] layout supplies each language; this adds every product under it.
-export function generateStaticParams() {
-  return CATALOG.map((p) => ({ sku: p.id }));
+export async function generateStaticParams() {
+  return (await getCatalog()).map((p) => ({ sku: p.id }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang, sku } = await params;
-  const p = BY[sku];
+  const p = await getProduct(sku);
   if (!hasLang(lang) || !p) return {};
   const t = getT(lang);
-  const description = [t(p.cat), ...(p.sub ? [t(p.sub)] : []), ...p.specs.map(t)].join(" · ");
+  const txt = productText(p, lang);
+  const description = [t(p.cat), ...(txt.sub ? [txt.sub] : []), ...txt.specs].join(" · ");
   return {
-    title: t(p.name),
+    title: txt.name,
     description,
     alternates: { languages: { en: href("/p/" + p.id, "en"), ur: href("/p/" + p.id, "ur") } },
-    openGraph: { title: t(p.name), description, images: p.img ? [p.img] : p.cimg ? [p.cimg] : undefined },
+    openGraph: { title: txt.name, description, images: p.img ? [p.img] : p.cimg ? [p.cimg] : undefined },
   };
 }
 
 export default async function ProductPage({ params }: Props) {
   const { lang, sku } = await params;
+  if (!hasLang(lang)) notFound();
+  const catalog = await getCatalog();
+  const BY = Object.fromEntries(catalog.map((x) => [x.id, x]));
   const p = BY[sku];
-  if (!hasLang(lang) || !p) notFound();
+  if (!p) notFound();
   const t = getT(lang);
+  const txt = productText(p, lang);
   const word = finWord(p);
   const wty = p.wty ?? "10-year warranty";
   const looks = looksWith(p);
@@ -52,10 +58,10 @@ export default async function ProductPage({ params }: Props) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: t(p.name),
+    name: txt.name,
     sku: p.id,
     category: t(p.cat),
-    description: [p.sub, ...p.specs].filter(Boolean).map((s) => t(s as string)).join(" · "),
+    description: [txt.sub, ...txt.specs].filter(Boolean).join(" · "),
     image: [p.img, p.alt].filter(Boolean),
     brand: { "@type": "Brand", name: t("Aabshar") },
     offers: {
@@ -63,7 +69,7 @@ export default async function ProductPage({ params }: Props) {
       url: href("/p/" + p.id, lang),
       priceCurrency: "PKR",
       price: p.price,
-      availability: "https://schema.org/InStock",
+      availability: soldOut(p) ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
       itemCondition: "https://schema.org/NewCondition",
     },
   };
@@ -77,7 +83,7 @@ export default async function ProductPage({ params }: Props) {
         <span aria-hidden="true">/</span>
         <Link href={href(p.id.startsWith("AP-") ? "/#plastic" : "/#shop", lang)}>{t(p.cat)}</Link>
         <span aria-hidden="true">/</span>
-        <span aria-current="page">{t(p.name)}</span>
+        <span aria-current="page">{txt.name}</span>
       </nav>
 
       <ProductView key={p.id} id={p.id}>
@@ -96,13 +102,13 @@ export default async function ProductPage({ params }: Props) {
               </tbody>
             </table>
             <ul className="ticks small">
-              {p.specs.map((s) => <li key={s}><CheckIcon /><span>{t(s)}</span></li>)}
+              {txt.specs.map((s) => <li key={s}><CheckIcon /><span>{s}</span></li>)}
             </ul>
           </details>
           <details>
             <summary>{t("In the box")}</summary>
             <ul className="ticks small">
-              <li><CheckIcon /><span>{t(p.name)}</span></li>
+              <li><CheckIcon /><span>{txt.name}</span></li>
               <li><CheckIcon /><span>{t("Fixing kit and seals")}</span></li>
               <li><CheckIcon /><span>{t("Warranty card with QR code")}</span></li>
             </ul>
@@ -129,14 +135,15 @@ export default async function ProductPage({ params }: Props) {
           <div className="prooms">
             {looks.map((i) => {
               const L = LOOKS[i];
-              const sum = (m: "retail" | "dealer") => L.items.reduce((a, it) => a + lookPrice(it[0], it[3], m), 0);
+              const items = lookItems(L, BY);
+              const sum = (m: "retail" | "dealer") => items.reduce((a, it) => a + lookPrice(BY[it[0]], it[3], m), 0);
               return (
                 <Link key={i} href={href(`/#look-${i}`, lang)} className="proom">
                   <Image src={L.img} alt="" width={1600} height={1000} sizes="(max-width: 860px) 100vw, 33vw" style={{ objectPosition: L.pos }} />
                   <span>
                     <b>{t(L.name)}</b>
                     <small>
-                      <span>{t(`${L.items.length} fittings`)}</span> ·{" "}
+                      <span>{t(`${items.length} fittings`)}</span> ·{" "}
                       <span className="mono" data-show="retail">{rs(sum("retail"), lang)}</span>
                       <span className="mono" data-show="dealer">{rs(sum("dealer"), lang)}</span>
                     </small>
@@ -156,7 +163,7 @@ export default async function ProductPage({ params }: Props) {
           </div>
         </div>
         <div className="rail">
-          {related(p).map((x) => <ProductCard key={x.id} p={x} />)}
+          {related(p, catalog, BY).map((x) => <ProductCard key={x.id} p={x} />)}
         </div>
       </section>
     </div>

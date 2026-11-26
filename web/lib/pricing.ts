@@ -1,4 +1,6 @@
-import { BY, FIN, type FinishId, type Product } from "./data";
+import { FIN, type FinishId, type Product } from "./data";
+
+export type ById = Record<string, Product>;
 
 export type Mode = "retail" | "dealer";
 export type CartLine = { id: string; fin: FinishId | ""; qty: number };
@@ -23,12 +25,11 @@ export function unitPrice(p: Product, fin: FinishId | "", qty: number, mode: Mod
 }
 
 /** Price used for room hotspots: retail, or the best dealer slab. */
-export function lookPrice(id: string, fin: FinishId | undefined, mode: Mode): number {
-  const p = BY[id];
+export function lookPrice(p: Product, fin: FinishId | undefined, mode: Mode): number {
   const m = fin ? FIN[fin].mult : 1;
   return (mode === "dealer" ? p.slabs[2] : p.price) * m;
 }
 
-export const lineTotal = (l: CartLine, mode: Mode) => unitPrice(BY[l.id], l.fin, l.qty, mode) * l.qty;
-export const cartSum = (cart: CartLine[], mode: Mode) => cart.reduce((a, l) => a + lineTotal(l, mode), 0);
+export const lineTotal = (l: CartLine, by: ById, mode: Mode) => (by[l.id] ? unitPrice(by[l.id], l.fin, l.qty, mode) * l.qty : 0);
+export const cartSum = (cart: CartLine[], by: ById, mode: Mode) => cart.reduce((a, l) => a + lineTotal(l, by, mode), 0);
 export const cartCount = (cart: CartLine[]) => cart.reduce((a, l) => a + l.qty, 0);

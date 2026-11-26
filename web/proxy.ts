@@ -18,6 +18,6 @@ export function proxy(req: NextRequest) {
 }
 
 export const config = {
-  // Skip Next internals, images and files with an extension.
-  matcher: ["/((?!_next|img|favicon.ico|.*\\..*).*)"],
+  // Skip Next internals, the admin panel, API routes, images and files with an extension.
+  matcher: ["/((?!_next|admin|api|img|favicon.ico|.*\\..*).*)"],
 };

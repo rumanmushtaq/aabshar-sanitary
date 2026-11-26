@@ -4,12 +4,12 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { CATALOG, type Product } from "@/lib/data";
+import type { Product } from "@/lib/data";
 import type { Mode } from "@/lib/pricing";
-import { useI18n, useShop } from "@/components/providers";
+import { useCatalog, useI18n, useShop } from "@/components/providers";
 import { ProductCard } from "./product-card";
 import { BoxIcon } from "./product-icons";
-import { CATS, catSlug } from "./catalog";
+import { catSlug, catsOf } from "./catalog";
 import "./shop.css";
 
 const SORTS = ["featured", "low", "high"] as const;
@@ -48,11 +48,13 @@ export function ShopListing() {
 export function ShopView({ cat = "", onPick }: { cat?: string; onPick?: (slug: string) => void }) {
   const { t } = useI18n();
   const { mode } = useShop();
+  const { catalog } = useCatalog();
+  const CATS = catsOf(catalog);
   const { register, control } = useForm<SortForm>({ resolver: zodResolver(sortSchema), defaultValues: { sort: "featured" } });
   const sort = useWatch({ control, name: "sort" });
 
   const current = CATS.find((c) => catSlug(c) === cat);
-  const list = CATALOG.filter((p) => !cat || p.cat === current);
+  const list = catalog.filter((p) => !cat || p.cat === current);
   if (sort !== "featured") list.sort((a, b) => (shown(a, mode) - shown(b, mode)) * (sort === "low" ? 1 : -1));
   const n = list.length;
 

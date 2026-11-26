@@ -43,3 +43,23 @@ Prices come from `lib/pricing.ts` (`unitPrice`, `slabIndex`, `cartSum` ...) and 
 ## Forms
 
 Forms use `react-hook-form` with `zod` schemas (`@hookform/resolvers/zod`), not `useState` per field.
+
+## Backend
+
+Postgres with Drizzle ORM. Local database: `npm run db:up` (Docker, port 55434), then `npm run db:migrate` and `npm run db:seed`. Settings live in `.env` (see `.env.example`).
+
+| Path | What it is |
+| --- | --- |
+| `lib/db/schema.ts` | Tables: products, ship_rates, shops, dealers, ledger (khata), orders, order_items, order_events, promo_codes, subscribers, users (staff), sessions |
+| `lib/db/index.ts` | Drizzle client (server only) |
+| `drizzle/` | SQL migrations (`npm run db:generate` after a schema change) |
+| `scripts/seed.ts` | Loads the sample data from `lib/data.ts`, a demo dealer and the first admin from `ADMIN_EMAIL` / `ADMIN_PASSWORD` |
+| `lib/store.ts` | Cached reads for pages: `getCatalog`, `getProduct`, `getShipRates`, `getShops`, tagged with `TAG.*` |
+| `lib/auth.ts` | Sessions for staff (`aab-admin` cookie) and dealers (`aab-dealer` cookie); only a SHA-256 of the token is stored |
+| `lib/password.ts` | scrypt hashing for staff passwords and dealer PINs |
+
+- The catalogue and delivery rates reach client components through `useCatalog()` (`components/providers.tsx`), filled by `app/[lang]/layout.tsx`.
+- Prices are always recomputed on the server when an order is placed; the cart in the browser only holds SKU, finish and quantity.
+- Every admin change calls `updateTag()` for the data it touched, so the shop shows it on the next request.
+- `/admin` is the staff panel, in English. It has its own root layout and is not under `[lang]`.
+- Mutations are server actions. Each one checks the session itself; the proxy does no auth.

@@ -1,4 +1,6 @@
-// Sample data ported from aabshar-v7.html. Replace with the real catalogue and dealer records.
+// Design constants (finishes, rooms, tabs, payment methods) and the sample data that scripts/seed.ts
+// loads into the database. Pages read products, delivery rates, shops and dealers from the database
+// (lib/store.ts), not from the arrays here.
 
 export type FinishId = "chrome" | "black" | "gold" | "gunmetal" | "c_green" | "c_white" | "c_blue" | "c_black" | "c_yellow" | "c_red" | "c_grey";
 
@@ -34,6 +36,12 @@ export type Product = {
   sub?: string;
   wty?: string;
   tags?: string;
+  /** Pieces in stock (from the database). */
+  stock?: number;
+  /** Urdu text entered in the admin panel. */
+  nameUr?: string;
+  subUr?: string;
+  specsUr?: string[];
 };
 
 /** [productId, x%, y%, finish] hotspot on a room photo. */

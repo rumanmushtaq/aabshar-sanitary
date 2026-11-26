@@ -3,11 +3,12 @@
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import type { z } from "zod";
 import { useI18n, useShop } from "@/components/providers";
+import { newsSchema } from "@/lib/checkout-schema";
+import { subscribe } from "@/lib/actions/shop";
 import { NavLink, catSlug } from "./nav-link";
 
-const newsSchema = z.object({ email: z.email() });
 type News = z.infer<typeof newsSchema>;
 
 const hidden: React.CSSProperties = { position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" };
@@ -28,7 +29,7 @@ const COLS: [string, [string, string][]][] = [
     ["Find a shop", "/#find"],
   ]],
   ["Help", [
-    ["Track order", "#top"],
+    ["Track order", "/track"],
     ["Warranty registration", "#top"],
     ["Returns", "#top"],
     ["Installation videos", "#top"],
@@ -36,13 +37,15 @@ const COLS: [string, [string, string][]][] = [
 ];
 
 function NewsForm() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const { toast } = useShop();
   const { register, handleSubmit, reset, formState } = useForm<News>({ resolver: zodResolver(newsSchema), defaultValues: { email: "" } });
   return (
     <form
       className="news"
-      onSubmit={handleSubmit(() => {
+      onSubmit={handleSubmit(async ({ email }) => {
+        const res = await subscribe({ email, lang }).catch(() => ({ ok: false, error: "Something went wrong. Please try again." }));
+        if (!res.ok) return toast(res.error ?? "Something went wrong. Please try again.");
         reset();
         toast("Subscribed. New designs come to your inbox.");
       })}
@@ -57,7 +60,7 @@ function NewsForm() {
         aria-invalid={formState.errors.email ? true : undefined}
         {...register("email")}
       />
-      <button className="btn brass" type="submit" style={{ padding: "10px 18px", minHeight: 44 }}>{t("Join")}</button>
+      <button className="btn brass" type="submit" disabled={formState.isSubmitting} style={{ padding: "10px 18px", minHeight: 44 }}>{t("Join")}</button>
     </form>
   );
 }

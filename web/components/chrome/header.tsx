@@ -176,7 +176,7 @@ function HeaderBar({ pathname }: { pathname: string | null }) {
           <div className="r">
             <Link href={href("/dealer")}>{t("Dealer portal")}</Link>
             <NavLink to="/#find">{t("Find a dealer")}</NavLink>
-            <a href="#top">{t("Track order")}</a>
+            <Link href={href("/track")}>{t("Track order")}</Link>
             <a href="tel:+923000000000" className="mono" dir="ltr" aria-label={t("Call 0300 000 0000")}>0300 000 0000</a>
             <div className={"langsel" + (langOpen ? " open" : "")} ref={langRef}>
               <button

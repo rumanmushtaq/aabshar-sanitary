@@ -4,8 +4,9 @@ import Image from "next/image";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { BY, FIN, METAL, SET } from "@/lib/data";
-import { useI18n, useShop } from "@/components/providers";
+import { FIN, METAL, SET as ALL_SET } from "@/lib/data";
+import { soldOut } from "@/components/product/catalog";
+import { useCatalog, useI18n, useShop } from "@/components/providers";
 
 const schema = z.object({
   fin: z.enum(["chrome", "black", "gold", "gunmetal"]),
@@ -20,9 +21,13 @@ const DEALER_MULT = 0.78;
 export function SetBuilder() {
   const { t, rs } = useI18n();
   const { mode, addItem, openOverlay } = useShop();
+  const { BY } = useCatalog();
+  // Pieces whose product is in the catalogue; sold-out pieces are shown but cannot be picked.
+  const SET = ALL_SET.filter((s) => BY[s.id]);
+  const out = SET.map((s) => soldOut(BY[s.id]));
   const { control, register, setValue, handleSubmit } = useForm<Values>({
     resolver: zodResolver(schema),
-    defaultValues: { fin: "chrome", on: SET.map((s) => s.on) },
+    defaultValues: { fin: "chrome", on: SET.map((s, i) => s.on && !out[i]) },
   });
   const fin = useWatch({ control, name: "fin" });
   const on = useWatch({ control, name: "on" });
@@ -38,7 +43,7 @@ export function SetBuilder() {
 
   const onAdd = (v: Values) => {
     SET.forEach((s, i) => {
-      if (!v.on[i]) return;
+      if (!v.on[i] || out[i]) return;
       const p = BY[s.id];
       addItem(s.id, p.fins.includes(v.fin) ? v.fin : p.fins[0], (dealer ? p.carton : 1) * (s.qty ?? 1), true);
     });
@@ -71,9 +76,9 @@ export function SetBuilder() {
           <div id="items">
             {SET.map((s, i) => (
               <label key={s.id} className="item" htmlFor={"it-" + i}>
-                <input type="checkbox" id={"it-" + i} {...register(`on.${i}`)} />
+                <input type="checkbox" id={"it-" + i} disabled={out[i]} {...register(`on.${i}`)} />
                 <span>{t(s.name + (s.qty ? " ×" + s.qty : ""))}<small className="mono">{s.id}</small></span>
-                <span className="mono" id={"ip-" + i}>{rs(prices[i])}</span>
+                {out[i] ? <span className="warn">{t("Out of stock")}</span> : <span className="mono" id={"ip-" + i}>{rs(prices[i])}</span>}
               </label>
             ))}
           </div>

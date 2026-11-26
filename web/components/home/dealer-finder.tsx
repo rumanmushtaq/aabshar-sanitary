@@ -1,17 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { CITIES } from "@/lib/data";
+import type { Shops } from "@/lib/store";
 import { useI18n } from "@/components/providers";
 import "./home.css";
 
-const NAMES = Object.keys(CITIES);
-
-/** Find a shop: authorised dealers by city, with phone and directions. */
-export function DealerFinder() {
+/** Find a shop: authorised dealers by city (from getShops()), with phone and directions. */
+export function DealerFinder({ shops }: { shops: Shops }) {
   const { t, lang } = useI18n();
-  const [city, setCity] = useState(NAMES[0]);
-  const c = CITIES[city];
+  const NAMES = Object.keys(shops);
+  const [picked, setCity] = useState(NAMES[0] ?? "");
+  const city = shops[picked] ? picked : (NAMES[0] ?? "");
+  const c = shops[city] ?? { n: 0, list: [] };
   const comma = lang === "ur" ? "، " : ", ";
   return (
     <section className="band gut" id="find" style={{ paddingTop: 0 }}>
@@ -25,7 +25,7 @@ export function DealerFinder() {
           <div className="cities" role="group" aria-label={t("City")} id="cities">
             {NAMES.map((n) => (
               <button key={n} type="button" aria-pressed={n === city} onClick={() => setCity(n)}>
-                <span>{t(n)}</span><small className="mono">{CITIES[n].n}</small>
+                <span>{t(n)}</span><small className="mono">{shops[n].n}</small>
               </button>
             ))}
           </div>

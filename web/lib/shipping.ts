@@ -1,4 +1,5 @@
-import { FREE_OVER, SHIP } from "./data";
+import { FREE_OVER } from "./data";
+import type { ShipRates } from "./store";
 
 /** Delivery date after a number of working days (Sundays skipped). */
 export function etaDate(days: number, from = new Date()): Date {
@@ -11,9 +12,11 @@ export function etaDate(days: number, from = new Date()): Date {
   return d;
 }
 
-/** Delivery fee for a city and subtotal. Gujranwala and Lahore are free over FREE_OVER. */
-export function shipFee(city: string, sub: number): number {
-  const s = SHIP[city] ?? SHIP.Lahore;
-  if ((city === "Gujranwala" || city === "Lahore") && sub >= FREE_OVER) return 0;
-  return s.f;
+/** Rate for a city, falling back to Lahore's (or the first) when the city is unknown. */
+export const rateFor = (rates: ShipRates, city: string) => rates[city] ?? rates.Lahore ?? Object.values(rates)[0] ?? { d: 3, f: 0, free: false };
+
+/** Delivery fee for a city and subtotal. Cities marked free get free delivery over FREE_OVER. */
+export function shipFee(rates: ShipRates, city: string, sub: number): number {
+  const r = rateFor(rates, city);
+  return r.free && sub >= FREE_OVER ? 0 : r.f;
 }

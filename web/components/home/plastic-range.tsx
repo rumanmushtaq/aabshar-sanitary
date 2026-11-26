@@ -1,9 +1,10 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { BY, PT } from "@/lib/data";
+import { PT } from "@/lib/data";
 import { ProductCard } from "@/components/product/product-card";
-import { useI18n } from "@/components/providers";
+import { pick } from "@/components/product/catalog";
+import { useCatalog, useI18n } from "@/components/providers";
 import { scrollToId, useHomeHash } from "./use-home-hash";
 
 type Tab = keyof typeof PT;
@@ -13,6 +14,7 @@ const HASH = /^#plastic-(tanks|pipes|home)$/;
 /** Plastic range tabs and product rail. #plastic-tanks / -pipes / -home pick a tab and scroll here. */
 export function PlasticRange() {
   const { t, lang } = useI18n();
+  const { BY } = useCatalog();
   const [tab, setTab] = useState<Tab>("all");
   const btns = useRef<Partial<Record<Tab, HTMLButtonElement | null>>>({});
 
@@ -47,7 +49,7 @@ export function PlasticRange() {
         ))}
       </div>
       <div className="rail" id="prail" role="tabpanel" aria-label={t("Plastic products")}>
-        {PT[tab].map((id) => <ProductCard key={id} p={BY[id]} />)}
+        {pick(PT[tab], BY).map((p) => <ProductCard key={p.id} p={p} />)}
       </div>
     </>
   );

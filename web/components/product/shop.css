@@ -6,3 +6,7 @@
 .shop .head{margin-bottom:28px}
 .shop .ptabs{margin-bottom:32px}
 .shop .empty .btn{margin-top:6px}
+
+/* Stock: low and sold-out notes on the product page, sold-out button on cards. */
+.warn{color:#b3261e;font-weight:600}
+.card .quick[disabled]{opacity:1;background:rgba(13,17,23,.55)}

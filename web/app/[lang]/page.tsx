@@ -6,6 +6,7 @@ import { Hero } from "@/components/home/hero";
 import { Best, Factory, Plastic, Sets, ShopMosaic, Story, Usp, Ways } from "@/components/home/sections";
 import { ShopTheLook } from "@/components/home/shop-the-look";
 import { DealerFinder } from "@/components/home/dealer-finder";
+import { getShops } from "@/lib/store";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]">): Promise<Metadata> {
   const { lang } = await params;
@@ -17,6 +18,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]">): Promis
 export default async function Home({ params }: PageProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLang(lang)) notFound();
+  const shops = await getShops();
   return (
     <div className="view" id="v-home">
       <Hero />
@@ -29,7 +31,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       <Sets lang={lang} />
       <Factory lang={lang} />
       <ShopTheLook />
-      <DealerFinder />
+      <DealerFinder shops={shops} />
     </div>
   );
 }
