@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { FIN, LOOKS, type FinishId } from "@/lib/data";
 import { productText } from "@/lib/i18n";
+import { openWhatsApp } from "@/lib/contact";
 import { finWord, packOf, slabIndex, slabLabels, unitPrice } from "@/lib/pricing";
 import { etaDate, rateFor, shipFee } from "@/lib/shipping";
 import { useCatalog, useI18n, useShop } from "@/components/providers";
@@ -51,7 +52,7 @@ export function ProductView({ id, children }: { id: string; children?: React.Rea
   const cities = Object.keys(ship);
   const stock = p.stock ?? Infinity;
   const out = soldOut(p);
-  const { mode, addItem, openOverlay, toast } = useShop();
+  const { mode, addItem, openOverlay } = useShop();
   const router = useRouter();
   const dealer = mode === "dealer";
 
@@ -213,7 +214,7 @@ export function ProductView({ id, children }: { id: string; children?: React.Rea
             <button className="btn brass full" type="button" id="p-buy" disabled={out} onClick={buy}>
               {t(dealer ? "Order now on credit" : "Buy now · Cash on Delivery")}
             </button>
-            <button className="btn wa full" type="button" id="p-wa" onClick={() => toast(`Opens WhatsApp with ${p.id} in the message`)}>
+            <button className="btn wa full" type="button" id="p-wa" onClick={() => openWhatsApp(t("Assalam o Alaikum. I want to ask about this:") + "\n" + p.id + " " + txt.name + "\n" + location.href)}>
               <WhatsAppIcon />
               <span>{t("Ask about this on WhatsApp")}</span>
             </button>

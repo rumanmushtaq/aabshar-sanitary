@@ -4,6 +4,7 @@ import { Suspense, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { PHONE, PHONE_TEL } from "@/lib/contact";
 import { useI18n, useShop } from "@/components/providers";
 import { LANGS, LANG_COOKIE, LOCALES, type Lang } from "@/lib/i18n/config";
 import { BagIcon, ChevronIcon, SearchIcon } from "@/components/icons";
@@ -177,7 +178,7 @@ function HeaderBar({ pathname }: { pathname: string | null }) {
             <Link href={href("/dealer")}>{t("Dealer portal")}</Link>
             <NavLink to="/#find">{t("Find a dealer")}</NavLink>
             <Link href={href("/track")}>{t("Track order")}</Link>
-            <a href="tel:+923000000000" className="mono" dir="ltr" aria-label={t("Call 0300 000 0000")}>0300 000 0000</a>
+            <a href={"tel:" + PHONE_TEL} className="mono" dir="ltr" aria-label={t("Call " + PHONE)}>{PHONE}</a>
             <div className={"langsel" + (langOpen ? " open" : "")} ref={langRef}>
               <button
                 type="button"

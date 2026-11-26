@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useCatalog, useI18n, useShop } from "@/components/providers";
 import { FIN, FREE_OVER } from "@/lib/data";
 import { productText } from "@/lib/i18n";
+import { openWhatsApp } from "@/lib/contact";
 import { lineTotal } from "@/lib/pricing";
 import { Pic } from "@/components/product/pic";
 import { BagIcon, CloseIcon } from "@/components/icons";
@@ -12,7 +13,7 @@ import { NavLink } from "./nav-link";
 /** Cart drawer (v7 renderCart). */
 export function CartDrawer({ open, onClose, onLeave }: { open: boolean; onClose: () => void; onLeave: () => void }) {
   const { t, rs, href, lang } = useI18n();
-  const { mode, cart, count, sum, setQty, removeLine, toast } = useShop();
+  const { mode, cart, count, sum, setQty, removeLine } = useShop();
   const { BY } = useCatalog();
   const router = useRouter();
   const dealer = mode === "dealer";
@@ -93,7 +94,13 @@ export function CartDrawer({ open, onClose, onLeave }: { open: boolean; onClose:
           >
             {t(dealer ? "Place order on credit" : "Checkout · Cash on Delivery")}
           </button>
-          <button className="btn wa full" type="button" onClick={() => toast("Opens WhatsApp with your list and total")}>
+          <button className="btn wa full" type="button" onClick={() =>
+            openWhatsApp([
+              t("Assalam o Alaikum. I want to order:"),
+              ...cart.map((l) => `- ${l.id} ${productText(BY[l.id], lang).name}${l.fin ? " (" + t(FIN[l.fin].label) + ")" : ""} × ${l.qty}`),
+              t("Total") + ": " + rs(sum),
+            ].join("\n"))
+          }>
             {t("Send this order on WhatsApp")}
           </button>
         </div>

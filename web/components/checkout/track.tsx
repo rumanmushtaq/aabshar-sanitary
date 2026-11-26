@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useI18n } from "@/components/providers";
+import { PHONE, PHONE_TEL, waLink } from "@/lib/contact";
 import { trackSchema, type OrderStatus, type TrackResult, type TrackValues } from "@/lib/checkout-schema";
 import { trackOrder } from "@/lib/actions/shop";
 import { Field } from "./checkout";
@@ -122,8 +123,8 @@ export function TrackOrder({ initialNo = "" }: { initialNo?: string }) {
         <div className="trk-help">
           <b>{t("Need help with an order?")}</b>
           <small>{t("Mon–Sat, 9 am to 7 pm")}</small>
-          <a className="btn wa full" href="https://wa.me/923000000000" target="_blank" rel="noreferrer">{t("Chat on WhatsApp")}</a>
-          <a className="btn line full" href="tel:+923000000000"><span>{t("Call")}</span> <span className="mono" dir="ltr">0300 000 0000</span></a>
+          <a className="btn wa full" href={waLink()} target="_blank" rel="noreferrer">{t("Chat on WhatsApp")}</a>
+          <a className="btn line full" href={"tel:" + PHONE_TEL}><span>{t("Call")}</span> <span className="mono" dir="ltr">{PHONE}</span></a>
         </div>
       </aside>
       </div>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCatalog, useI18n, useShop } from "@/components/providers";
 import { FIN, type FinishId } from "@/lib/data";
 import { productText } from "@/lib/i18n";
+import { openWhatsApp } from "@/lib/contact";
 import { soldOut } from "@/components/product/catalog";
 import { finWord, packOf, slabLabels } from "@/lib/pricing";
 import { Pic } from "@/components/product/pic";
@@ -13,7 +14,7 @@ import { CloseIcon } from "@/components/icons";
 /** Body of the quick view modal (v7 renderQV). Remount with a new key to reset finish and quantity. */
 export function QuickView({ id, onClose, onLeave }: { id: string; onClose: () => void; onLeave: () => void }) {
   const { t, rs, href, lang } = useI18n();
-  const { mode, addItem, openOverlay, toast } = useShop();
+  const { mode, addItem, openOverlay } = useShop();
   const { BY } = useCatalog();
   const p = BY[id];
   const txt = productText(p, lang);
@@ -92,7 +93,7 @@ export function QuickView({ id, onClose, onLeave }: { id: string; onClose: () =>
         </ul>
         <div className="qvlinks">
           <Link className="link" href={href("/p/" + p.id)} onClick={onLeave}>{t("Full details")}</Link>
-          <button className="btn wa" type="button" onClick={() => toast(`Opens WhatsApp with ${p.id} in the message`)}>
+          <button className="btn wa" type="button" onClick={() => openWhatsApp(t("Assalam o Alaikum. I want to ask about this:") + "\n" + p.id + " " + txt.name + "\n" + location.origin + href("/p/" + p.id))}>
             {t("Ask about this on WhatsApp")}
           </button>
         </div>

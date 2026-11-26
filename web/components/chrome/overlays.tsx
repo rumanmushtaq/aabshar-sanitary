@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { openWhatsApp } from "@/lib/contact";
 import { useI18n, useShop } from "@/components/providers";
 import { BagIcon, CloseIcon, SearchIcon, WhatsAppIcon } from "@/components/icons";
 import { GridIcon, HomeIcon } from "./icons";
@@ -34,12 +35,10 @@ const MENU_CATS: [string, string][] = [
   ["Household plastic", "/#plastic-home"],
 ];
 
-const WA_CHAT = "Opens WhatsApp chat: 0300 000 0000";
-
 /** Scrim, search, quick view, cart and menu drawers, mobile tab bar, WhatsApp button and toast. */
 export function Overlays() {
   const { t } = useI18n();
-  const { mode, overlay, openOverlay, closeOverlay, qvId, count, toast, toastMsg, toastOn } = useShop();
+  const { mode, overlay, openOverlay, closeOverlay, qvId, count, toastMsg, toastOn } = useShop();
 
   // Focus moves into the open dialog and back to where it was after closing.
   // A quiet close (a link inside the dialog was followed) leaves focus alone.
@@ -131,10 +130,10 @@ export function Overlays() {
           {t("Cart")}
           <span className="badge">{count}</span>
         </button>
-        <button type="button" className="wa" onClick={() => toast(WA_CHAT)}><WhatsAppIcon />{t("WhatsApp")}</button>
+        <button type="button" className="wa" onClick={() => openWhatsApp()}><WhatsAppIcon />{t("WhatsApp")}</button>
       </nav>
 
-      <button className="wa-float" type="button" onClick={() => toast(WA_CHAT)}>
+      <button className="wa-float" type="button" onClick={() => openWhatsApp()}>
         <span className="i"><WhatsAppIcon /></span>
         <span className="t">{t("Chat on WhatsApp")}</span>
       </button>

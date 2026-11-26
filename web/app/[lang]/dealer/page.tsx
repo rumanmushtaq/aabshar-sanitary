@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import { PHONE, waLink } from "@/lib/contact";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { FinishId } from "@/lib/data";
@@ -11,7 +12,7 @@ import { getOverview } from "@/lib/dealer-data";
 import { Pic } from "@/components/product/pic";
 import { WhatsAppIcon } from "@/components/icons";
 import { OrderRow } from "@/components/dealer/order-row";
-import { DaysLeft, ReorderButton, ToastButton } from "@/components/dealer/actions";
+import { DaysLeft, ReorderButton } from "@/components/dealer/actions";
 
 type Props = { params: Promise<{ lang: string }> };
 
@@ -150,10 +151,10 @@ async function Overview({ lang }: { lang: Lang }) {
             <div className="dch"><h3>{t("Your area manager")}</h3></div>
             <p className="mgr">
               <span className="av">{manager.trim().charAt(0)}</span>
-              <span><b>{manager}</b><small className="mono" dir="ltr">0300 000 0000</small></span>
-              <ToastButton className="btn wa" msg="Opens WhatsApp chat: 0300 000 0000">
+              <span><b>{manager}</b><small className="mono" dir="ltr">{PHONE}</small></span>
+              <a className="btn wa" href={waLink()} target="_blank" rel="noreferrer">
                 <WhatsAppIcon /><span>{t("WhatsApp")}</span>
-              </ToastButton>
+              </a>
             </p>
           </div>
         </div>
