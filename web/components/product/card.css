@@ -1,0 +1,124 @@
+/* Product card. Photo first, then a quiet text block: category, name, finishes, price.
+   Retail and dealer prices are both in the HTML; body.retail / body.dealer shows one. */
+.pc{display:flex;flex-direction:column;gap:14px;min-width:0}
+
+/* ---------- photo ---------- */
+.pc-media{position:relative;z-index:1;aspect-ratio:4/5;border-radius:18px;overflow:hidden;background:var(--stone-2);isolation:isolate;
+  box-shadow:0 1px 0 rgba(13,17,23,.04);transition:box-shadow .5s cubic-bezier(.2,.7,.2,1),transform .5s cubic-bezier(.2,.7,.2,1)}
+.pc-img{position:absolute;inset:0;display:block}
+.pc-img img,.pc-img .thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:0;transition:transform 1s cubic-bezier(.2,.7,.2,1),opacity .6s}
+.pc-img .pc-alt{opacity:0}
+@media (hover:hover){
+  .pc:hover .pc-media{box-shadow:0 22px 40px -24px rgba(13,17,23,.45);transform:translateY(-3px)}
+  .pc:hover .pc-img img,.pc:hover .pc-img .thumb{transform:scale(1.045)}
+  .pc:hover .pc-img .pc-alt{opacity:1}
+}
+
+/* badges, top start corner */
+.pc-badges{position:absolute;inset-inline-start:12px;top:12px;display:flex;gap:6px;flex-wrap:wrap;z-index:2}
+.pc-flag{font-size:.68rem;font-weight:700;letter-spacing:.04em;padding:6px 10px;border-radius:99px;background:rgba(255,255,255,.94);color:var(--ink);box-shadow:0 2px 8px -4px rgba(0,0,0,.3)}
+.pc-flag.sale{background:#9c3f18;color:#fff}
+
+/* quick view, top end corner */
+.pc-qv{position:absolute;inset-inline-end:12px;top:12px;z-index:2;width:40px;height:40px;border-radius:50%;border:0;display:grid;place-items:center;
+  background:rgba(255,255,255,.92);color:var(--ink);cursor:pointer;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  opacity:0;transform:scale(.88);transition:opacity .25s,transform .25s,background .2s}
+.pc-qv svg{width:18px;height:18px}
+.pc-qv:hover{background:#fff}
+.pc:hover .pc-qv,.pc-qv:focus-visible{opacity:1;transform:none}
+
+.pc-flag.low{background:#fff4df;color:#8a4b00}
+.pc-flag.out{background:rgba(13,17,23,.85);color:#fff}
+.is-out .pc-img img,.is-out .pc-img .thumb{filter:grayscale(.6);opacity:.75}
+
+/* details panel: hidden below the photo, slides up on hover / keyboard focus */
+.pc-hover{position:absolute;inset:auto 0 0;z-index:2;display:grid;gap:12px;padding:56px 16px 16px;color:#fff;
+  background:linear-gradient(to top,rgba(13,17,23,.94) 0%,rgba(13,17,23,.86) 62%,rgba(13,17,23,0) 100%);
+  opacity:0;transform:translateY(24px);visibility:hidden;transition:opacity .35s,transform .45s cubic-bezier(.2,.7,.2,1),visibility .35s}
+.pc-media:hover .pc-hover,.pc-media:focus-within .pc-hover{opacity:1;transform:none;visibility:visible}
+.pc-specs{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:.82rem;line-height:1.35;color:#ece8e1}
+.pc-specs li{display:grid;grid-template-columns:16px minmax(0,1fr);gap:8px;align-items:start}
+.pc-specs svg{width:16px;height:16px;color:var(--brass);margin-top:1px}
+.pc-facts{display:flex;flex-wrap:wrap;gap:6px}
+.pc-facts span{font-size:.7rem;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);color:#d9d3c9}
+.pc-actions{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center}
+.pc-add-full{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 14px;border:0;border-radius:12px;cursor:pointer;
+  background:var(--brass);color:var(--ink);font:inherit;font-weight:600;font-size:.86rem;transition:background .2s}
+.pc-add-full svg{width:17px;height:17px;flex:none}
+.pc-add-full:hover{background:#d3a463}
+.pc-add-full.done{background:var(--ok);color:#fff}
+.pc-add-full.is-off{background:rgba(255,255,255,.12);color:#cfc9bf;cursor:default}
+.pc-more{min-height:44px;display:grid;place-items:center;padding:0 12px;border-radius:12px;border:1px solid rgba(255,255,255,.35);color:#fff;text-decoration:none;font-size:.82rem;font-weight:600;white-space:nowrap}
+.pc-more:hover{background:rgba(255,255,255,.12)}
+
+/* touch: round add button instead of the panel */
+.pc-fab{display:none}
+@media (hover:none){
+  .pc-hover{display:none}
+  .pc-qv{opacity:1;transform:none;width:36px;height:36px}
+  .pc-fab{display:grid;place-items:center;position:absolute;inset-inline-end:10px;bottom:10px;z-index:2;width:44px;height:44px;border:0;border-radius:50%;
+    background:var(--ink);color:#fff;box-shadow:0 10px 20px -10px rgba(13,17,23,.8);cursor:pointer}
+  .pc-fab svg{width:20px;height:20px}
+  .pc-fab.done{background:var(--ok)}
+}
+
+/* ---------- text ---------- */
+.pc-body{display:grid;gap:7px;padding-inline:2px;align-content:start}
+.pc-kicker{display:flex;justify-content:space-between;gap:10px;font-size:.7rem;letter-spacing:.06em;color:var(--muted)}
+.pc-kicker span:first-child{text-transform:uppercase;font-weight:600;color:var(--brass-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html[lang="ur"] .pc-kicker span:first-child{text-transform:none;letter-spacing:0}
+.pc-kicker .mono{font-size:.7rem;letter-spacing:0}
+.pc-name{margin:0;font-size:1.02rem;font-weight:600;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pc-name a{text-decoration:none;color:inherit}
+/* the name link covers the text block, so the whole card is clickable; finishes sit above it */
+.pc{position:relative}
+.pc-name a::after{content:"";position:absolute;inset:0}
+.pc-name a:hover{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.pc-sub{margin:-3px 0 0;font-size:.8rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* finishes */
+.pc-fins{display:flex;align-items:center;gap:7px;position:relative;z-index:1}
+.pc-sw{width:20px;height:20px;padding:0;border:0;border-radius:50%;cursor:pointer;flex:none;outline-offset:3px;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.18),0 0 0 2px var(--stone),0 0 0 2px transparent;transition:box-shadow .2s,transform .2s}
+.pc-sw:hover{transform:scale(1.1)}
+.pc-sw[aria-checked="true"]{box-shadow:inset 0 0 0 1px rgba(0,0,0,.18),0 0 0 2px var(--stone),0 0 0 3.5px var(--ink)}
+.pc-fin-name{font-size:.76rem;color:var(--muted);margin-inline-start:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* retail price */
+.pc-price{align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:2px}
+body.retail .pc-price[data-show="retail"]{display:flex}
+.pc-price b{font-size:1.2rem;font-weight:500;letter-spacing:-.01em}
+.pc-price s{font-size:.84rem;color:var(--muted)}
+
+/* dealer tiers: one quiet strip, the 20+ carton price picked out */
+.pc-dealer{margin-top:2px}
+body.dealer .pc-dealer[data-show="dealer"]{display:grid;gap:7px}
+.pc-dl-head{display:flex;justify-content:space-between;gap:8px;font-size:.7rem;color:var(--muted)}
+.pc-dl-head span:first-child{font-weight:600;color:var(--ink)}
+.pc-tiers{list-style:none;margin:0;padding:3px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px;border-radius:12px;background:var(--stone-2)}
+.pc-tiers li{display:grid;gap:1px;justify-items:center;padding:6px 2px;border-radius:9px;text-align:center}
+.pc-tiers small{font-size:.62rem;color:var(--muted);white-space:nowrap}
+.pc-tiers b{font-size:.86rem;font-weight:500}
+.pc-tiers li.best{background:#fff;box-shadow:0 1px 3px rgba(13,17,23,.12)}
+.pc-tiers li.best small{color:var(--brass-text);font-weight:600}
+
+/* ---------- phones: two cards per row ---------- */
+@media (max-width:760px){
+  .pc{gap:10px}
+  .pc-media{border-radius:14px}
+  .pc-badges{inset-inline-start:8px;top:8px}
+  .pc-flag{font-size:.6rem;padding:4px 8px}
+  .pc-qv{inset-inline-end:8px;top:8px;width:32px;height:32px}
+  .pc-qv svg{width:15px;height:15px}
+  .pc-fab{bottom:8px;inset-inline-end:8px;width:38px;height:38px}
+  .pc-kicker .mono{display:none}
+  .pc-name{font-size:.9rem}
+  .pc-sub{font-size:.72rem}
+  .pc-sw{width:17px;height:17px}
+  .pc-fin-name{display:none}
+  .pc-price b{font-size:1rem}
+  .pc-price s{font-size:.74rem}
+  .pc-dl-head span:last-child{display:none}
+  .pc-tiers small{font-size:.54rem}
+  .pc-tiers b{font-size:.72rem}
+}

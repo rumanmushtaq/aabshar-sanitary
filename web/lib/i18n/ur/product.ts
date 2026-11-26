@@ -23,6 +23,8 @@ const product: Record<string, string> = {
   "left in stock": "باقی ہیں",
   "no longer available": "اب دستیاب نہیں",
   "Quick view:": "فوری جائزہ:",
+  "Added": "شامل ہو گیا",
+  "Dealer price per piece": "ڈیلر ریٹ فی پیس",
 };
 
 export default product;
