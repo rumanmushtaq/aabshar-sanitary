@@ -46,12 +46,13 @@ Forms use `react-hook-form` with `zod` schemas (`@hookform/resolvers/zod`), not 
 
 ## Backend
 
-Postgres with Drizzle ORM. Local database: `npm run db:up` (Docker, port 55434), then `npm run db:migrate` and `npm run db:seed`. Settings live in `.env` (see `.env.example`).
+Neon Postgres (connected to the Vercel project, region Mumbai) with Drizzle ORM. `npm run env:pull` writes the connection strings to `.env.local`; then `npm run db:migrate` and `npm run db:seed`. Other settings live in `.env` (see `.env.example`). Local development uses the same database as the live site, so test orders show up in admin.
 
 | Path | What it is |
 | --- | --- |
 | `lib/db/schema.ts` | Tables: products, ship_rates, shops, dealers, ledger (khata), orders, order_items, order_events, promo_codes, subscribers, users (staff), sessions |
 | `lib/db/index.ts` | Drizzle client (server only) |
+| `lib/db/url.ts` | Which env var holds the pooled (app) and direct (migrations) connection string |
 | `drizzle/` | SQL migrations (`npm run db:generate` after a schema change) |
 | `scripts/seed.ts` | Loads the sample data from `lib/data.ts`, a demo dealer and the first admin from `ADMIN_EMAIL` / `ADMIN_PASSWORD` |
 | `lib/store.ts` | Cached reads for pages: `getCatalog`, `getProduct`, `getShipRates`, `getShops`, tagged with `TAG.*` |

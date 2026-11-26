@@ -8,8 +8,9 @@ import * as schema from "../lib/db/schema";
 import { BY, CATALOG, CITIES, DEALER, LAST, LEDGER, ORDERS, SHIP } from "../lib/data";
 import { hashSecret } from "../lib/password";
 import ur from "../lib/i18n/ur";
+import { directDbUrl } from "../lib/db/url";
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const pool = new Pool({ connectionString: directDbUrl() });
 const db = drizzle(pool, { schema });
 
 /** Demo dealer login: mobile 0301-6423718, PIN 1234. */

@@ -1,7 +1,7 @@
 import "server-only";
 import { createHash, randomBytes } from "node:crypto";
 import { cookies } from "next/headers";
-import { and, eq, gt } from "drizzle-orm";
+import { and, eq, gt, sql } from "drizzle-orm";
 import { db, schema } from "./db";
 import { hashSecret, verifySecret } from "./password";
 
@@ -39,7 +39,7 @@ async function sessionRow(cookie: string) {
   const [row] = await db
     .select()
     .from(schema.sessions)
-    .where(and(eq(schema.sessions.id, sha256(token)), gt(schema.sessions.expiresAt, new Date())))
+    .where(and(eq(schema.sessions.id, sha256(token)), gt(schema.sessions.expiresAt, sql`now()`)))
     .limit(1);
   return row ?? null;
 }
